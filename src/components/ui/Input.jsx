@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
-import FormField, { fieldClasses } from './FormField'
+import FormField from './FormField'
+import { fieldClasses } from './fieldClasses'
 import { cn } from '../../lib/cn'
 
 /**

@@ -1,4 +1,5 @@
-import FormField, { fieldClasses } from './FormField'
+import FormField from './FormField'
+import { fieldClasses } from './fieldClasses'
 
 /**
  * Multi-line text input. Pass maxLength to show a character counter.

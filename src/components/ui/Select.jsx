@@ -1,5 +1,6 @@
 import { ChevronDown } from 'lucide-react'
-import FormField, { fieldClasses } from './FormField'
+import FormField from './FormField'
+import { fieldClasses } from './fieldClasses'
 
 /**
  * Native select with the app styling.
