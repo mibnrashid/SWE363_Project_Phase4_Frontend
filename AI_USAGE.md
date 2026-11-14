@@ -18,7 +18,11 @@ Every team member lists the AI tools they used (including code autocomplete) and
 
 ### Asim Asiri
 
-_To be completed by Asim (tools used and files affected, or "I did not use any AI tools")._
+- **Tool:** Claude Code (Anthropic, model Claude Opus 5.5) in VS Code. No other AI tools or autocomplete.
+- **Used for:** building the student screens from `docs/responsibilities/asim.md` and the prototype screenshots (dashboard, profile, search, apply, saved, applications tracker, settings, notifications), running lint/build, making the commits on the `asim` branch, testing the screens in the browser at desktop and phone width, and preparing my AI declaration and pull request. I reviewed and tested every screen before it was committed.
+- **Files affected:**
+  - Student screens: `src/features/student/pages/*.jsx`, `src/features/student/components/*.jsx`, `src/features/student/utils/profileCompletion.js`
+  - Documentation: my line in `AI_USAGE.md`, `docs/ai-declaration/asim.md`, `docs/ai-evidence/asim/`
 
 ### Bahaa Najjar
 
