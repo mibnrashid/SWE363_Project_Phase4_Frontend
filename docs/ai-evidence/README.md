@@ -26,6 +26,15 @@ Tool: Claude Code (Anthropic, Claude Opus 5.5) in VS Code.
 - `readable/` – the same conversations as Markdown (long tool outputs shortened; `raw/` has everything).
   The generated code itself is in the repository history (the `asim` branch, merged into `main` in pull request #1).
 
-## Bahaa Najjar, Raed Abumostafa
+## Raed Abumostafa – `raed/`
 
-Each member's conversations are in their own folder here (`bahaa/`, `raed/`), added from their branches.
+Tool: Claude Code (Anthropic, Claude Opus 5.5) in VS Code.
+
+- `raw/01-shortlist-and-admin-session.jsonl` – the complete Claude Code conversation for the shortlist workspace, the Short-Listed page, the admin screens, testing and the declaration. The only change from the original is that Raed's personal email address is replaced with `[redacted-email]`.
+- `readable/` – the same conversation as Markdown (long tool outputs shortened; `raw/` has everything).
+  The generated code itself is in the repository history (the `raed` branch, pull request #2).
+
+## Bahaa Najjar – `bahaa/`
+
+Tool: OpenCode (AI coding assistant) in the terminal. His full OpenCode conversations go in `bahaa/`.
+The generated code itself is in the repository history (the `bahaa` branch, pull request #3).

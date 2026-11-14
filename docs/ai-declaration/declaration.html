@@ -132,16 +132,27 @@
 
 <section class="page" data-member="bahaa">
   <h2>Bahaa Najjar</h2>
-  <p class="sub">Branch <code>bahaa</code> · Company screens</p>
+  <p class="sub">Branch <code>bahaa</code> · Company screens (dashboard, postings, posting form, company profile, applicants, applicant detail)</p>
   <div class="box">
-    <div class="choice"><span class="cb"></span>I used AI tools in this phase</div>
+    <div class="choice"><span class="cb">✓</span>I used AI tools in this phase</div>
     <div class="choice"><span class="cb"></span>I did not use any AI tools in this phase</div>
   </div>
   <h3>Tools used</h3>
-  <table><tr><th>Tool</th><th>Model / version</th><th>Where</th></tr><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr></table>
-  <h3>What I used it for</h3><div class="line"></div><div class="line"></div><div class="line"></div>
-  <h3>Files affected</h3><div class="line"></div><div class="line"></div><div class="line"></div>
-  <h3>How I checked the output</h3><div class="line"></div><div class="line"></div>
+  <table>
+    <tr><th>Tool</th><th>Model / version</th><th>Where</th></tr>
+    <tr><td>OpenCode (AI coding assistant)</td><td>&nbsp;</td><td>Terminal</td></tr>
+  </table>
+  <h3>What I used it for</h3>
+  <p>I used OpenCode to build the company screens from my responsibilities file and the prototype screenshots: the dashboard, the postings list with close/reopen, the posting form and preview, the company profile, all applicants, the applicants for one posting and the applicant detail page. I also used it for the focused helper tests and for running lint and build.</p>
+  <h3>Files affected</h3>
+  <ul>
+    <li>Pages: <code>src/features/company/pages/*.jsx</code></li>
+    <li>Components: <code>src/features/company/components/*.jsx</code></li>
+    <li>Utilities and tests: <code>src/features/company/utils/postings.js</code>, <code>src/features/company/utils/postings.test.js</code></li>
+    <li>Documentation: my line in <code>AI_USAGE.md</code></li>
+  </ul>
+  <h3>How I checked the output</h3>
+  <p>I reviewed and tested every screen and the data rules before committing, ran lint and build, and ran the helper tests for the posting rules (validation, deadlines, filtering and sorting).</p>
   <h3>Evidence</h3><p>Full AI conversations: folder <code>bahaa/</code> in the AI Evidence zip.</p>
   <p style="margin-top:5mm">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>
   <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l"></div><small>Date</small></div></div>
@@ -149,19 +160,30 @@
 
 <section class="page" data-member="raed">
   <h2>Raed Abumostafa</h2>
-  <p class="sub">Branch <code>raed</code> · Shortlist tables / assistant and admin screens</p>
+  <p class="sub">Branch <code>raed</code> · Company shortlist workspace, Short-Listed page (export and finalize) and all admin screens</p>
   <div class="box">
-    <div class="choice"><span class="cb"></span>I used AI tools in this phase</div>
+    <div class="choice"><span class="cb">✓</span>I used AI tools in this phase</div>
     <div class="choice"><span class="cb"></span>I did not use any AI tools in this phase</div>
   </div>
   <h3>Tools used</h3>
-  <table><tr><th>Tool</th><th>Model / version</th><th>Where</th></tr><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr></table>
-  <h3>What I used it for</h3><div class="line"></div><div class="line"></div><div class="line"></div>
-  <h3>Files affected</h3><div class="line"></div><div class="line"></div><div class="line"></div>
-  <h3>How I checked the output</h3><div class="line"></div><div class="line"></div>
-  <h3>Evidence</h3><p>Full AI conversations: folder <code>raed/</code> in the AI Evidence zip.</p>
+  <table>
+    <tr><th>Tool</th><th>Model / version</th><th>Where</th></tr>
+    <tr><td>Claude Code (Anthropic)</td><td>Claude Opus 5.5</td><td>VS Code extension</td></tr>
+  </table>
+  <p>No other AI tools or code autocomplete were used.</p>
+  <h3>What I used it for</h3>
+  <p>I used Claude Code to build my part from my responsibilities file, the team docs and the prototype screenshots: the shortlist workspace (applicant pool, shortlist tables, drag and drop, the rule-based table assistant with undo, the AI reason line and "Use as shortlist"), the Short-Listed page (CSV/Excel export and finalize) and the six admin pages. It also ran lint and build before every commit, made the commits and pushes on my branch, tested the screens in a headless browser, and helped me write my declaration. I gave the instructions, answered its questions and reviewed the screenshots and test results.</p>
+  <h3>Files affected</h3>
+  <ul>
+    <li>Shortlist: <code>src/features/company/shortlist/**</code></li>
+    <li>Admin: <code>src/features/admin/**</code> (pages, components, <code>adminUtils.js</code>)</li>
+    <li>Documentation: my line in <code>AI_USAGE.md</code>, <code>docs/ai-declaration/raed.md</code>, <code>docs/ai-evidence/raed/</code></li>
+  </ul>
+  <h3>How I checked the output</h3>
+  <p>Lint and build before every commit, one feature per commit. I compared each screen with the prototype screenshots and tested every screen in a browser (42 company-side and 40 admin-side checks, no console errors, and every screen at phone width). The tests found two real problems (dropping wide rows onto tables, and the table overflowing on phones), which were fixed in their own commits.</p>
+  <h3>Evidence</h3><p>Full Claude Code conversation: folder <code>raed/</code> in the AI Evidence zip (only my personal email address is redacted).</p>
   <p style="margin-top:5mm">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>
-  <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l"></div><small>Date</small></div></div>
+  <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l" style="padding-top:4mm">2026-11-14</div><small>Date</small></div></div>
 </section>
 
 <!-- Team sign-off -->
