@@ -47,6 +47,7 @@ AI_USAGE.md                         (ONLY the line under "### Raed Abumostafa")
 
 ## 2. Design reference
 
+- **Screenshots of every screen are in this repo: [`docs/prototype/`](../prototype/README.md)** (start here - no Figma login needed). Each screen below lists its screenshot. If you use an AI assistant (e.g. Claude Code), point it at the image, for example: *"Build `src/features/...` to match `docs/prototype/...jpg`, following docs/responsibilities/raed.md section 4.x"*. Read `docs/prototype/README.md` first: it lists what to ignore in the images (the Figma top bar and the grey PROTOTYPE STATES bars).
 - **Figma Make prototype:** https://www.figma.com/make/Kq6KXCPbxBB8ZD8cK04Jdz/InternConnect-Desktop-Prototype
   - **Company flow** → Applicants → "Preview closed state" (the workspace) and the Short-Listed table / finalize screens.
   - **Admin flow** → Requests, Users, Postings, Imports, Sources, Statistics.
@@ -93,6 +94,7 @@ Shown inside Bahaa's applicants page (route `/company/postings/:listingId/applic
 Split your code into files inside `shortlist/`, for example: `ApplicantPool.jsx`, `TablesPanel.jsx`, `ShortlistTable.jsx`, `AssistantChat.jsx`, `assistant.js` (the command logic), `reasons.js`, `tableActions.js`.
 
 ### 4.1 Workspace layout (prototype "Posting closed")
+**Screenshot:** `docs/prototype/company/10-applicants-posting-open-locked.jpg` (locked mode), `docs/prototype/company/11-applicants-closed-workspace.jpg` (workspace mode)
 Two columns on desktop (`lg:grid-cols-[1fr_360px]`), one column on mobile, chat full width below:
 
 **Left - Applicants pool** (white card, title "Applicants", subtitle "Select applicants to add to a table.", **Sort** select: Date applied / Name / GPA):
@@ -123,6 +125,7 @@ Rules (FR-C7):
 - Keep **Add to table** as the keyboard / mobile-friendly alternative to dragging.
 
 ### 4.3 Table assistant chat (FR-C7 steps 3-5, FR-AI3)
+**Screenshot:** `docs/prototype/company/12-workspace-assistant-chat.jpg`, `docs/prototype/company/13-workspace-assistant-unavailable.jpg`
 Layout (prototype "Table assistant"): header with shield icon, "Table assistant", "Ask for help organizing applicants. You stay in control." Message list (company messages right in a dark bubble, assistant answers left in a white card), input + **Send**.
 
 There is no real Gemini in Phase 4. Write a small **rule-based** interpreter in `shortlist/assistant.js`: `runAssistant(message, { listing, applications, tables }) → { reply, changes }`. It must understand at least these requests (case-insensitive, flexible wording):
@@ -156,6 +159,7 @@ Rules:
 `shortlist/reasons.js` → `reasonFor(student, listing)` returns one short sentence (max 40 words) built **only from the student's data**: matching skills + one gap. Example: "Strong Python and Machine Learning from their profile; no TensorFlow mentioned." Shown when **Show optional Reason column** is on or when asked "why is X in this table". Always prefixed with "AI-generated, may be inaccurate". When AI is down: "Reason unavailable".
 
 ### 4.5 Use as shortlist (FR-C8)
+**Screenshot:** `docs/prototype/company/14-use-as-shortlist-confirm.jpg`
 - Button on each table card. Disabled when the table is empty.
 - `ConfirmDialog`: title "Use this table as the shortlist?", message `${N} applicants will become Short-Listed. ${M} applicants will be Rejected. This can't be undone.` where N = table members that are Under Review, M = all other Under Review applicants of the posting (Withdrawn skipped).
 - Confirm → one `transaction`:
@@ -167,6 +171,7 @@ Rules:
 - Allowed once per posting; afterwards tables are read-only.
 
 ## 5. Short-Listed page - `src/features/company/shortlist/ShortlistPage.jsx`
+**Screenshot:** `docs/prototype/company/20-shortlisted-page.jpg`, `docs/prototype/company/21-shortlist-export-modal.jpg`, `docs/prototype/company/22-shortlist-finalize.jpg`, `docs/prototype/company/23-finalize-confirm.jpg`
 Route `/company/postings/:listingId/shortlist` · FR-C9, FR-C10 · Prototype: Company flow → View shortlist
 
 - Access: only the posting's company (`listing.companyId === user.id`), otherwise `EmptyState` "Posting not found". If `!listing.shortlistApprovedAt` → `EmptyState` "Export and finalize are available after you approve a shortlist." + link to applicants.
@@ -184,6 +189,7 @@ Route `/company/postings/:listingId/shortlist` · FR-C9, FR-C10 · Prototype: Co
 Every admin page: `useDocumentTitle`, `PageHeader` eyebrow **"Admin console"**, toasts for every action. Put shared admin pieces in `src/features/admin/components/`.
 
 ### 6.1 Company requests - `CompanyRequestsPage.jsx` (route `/admin/requests`, FR-AD1)
+**Screenshot:** `docs/prototype/admin/01-company-requests.jpg`, `docs/prototype/admin/02-request-drawer.jpg`, `docs/prototype/admin/03-reject-with-reason.jpg`
 - Title "Company requests", subtitle "Review and verify company registrations."
 - 3 small stat chips: Pending review, Approved this month, Rejected this month (from `accounts` with role company).
 - `Table`: Company (square avatar + name), Industry, City, CR number, Submitted, chevron. Only accounts with `status === 'pending'`. Row click → `Drawer`.
@@ -193,6 +199,7 @@ Every admin page: `useDocumentTitle`, `PageHeader` eyebrow **"Admin console"**, 
 - Empty → `EmptyState` "No pending requests".
 
 ### 6.2 Users - `UsersPage.jsx` (route `/admin/users`, FR-AD2)
+**Screenshot:** `docs/prototype/admin/04-users.jpg`
 - Title "Users", subtitle "Manage student and company access."
 - Search (name or email) + role `Select` (All roles / Student / Company) + status `Select` (All / Active / Suspended / Pending / Rejected / Unverified).
 - `Table`: User (avatar + name), Role, Email, Status (badge: Active teal/success, Suspended danger, others neutral), Joined, chevron → `Drawer` with details and activity (students: number of applications; companies: number of postings), and buttons:
@@ -201,12 +208,14 @@ Every admin page: `useDocumentTitle`, `PageHeader` eyebrow **"Admin console"**, 
   - The admin can't suspend their own account (hide the button for `user.id`). Don't list admin accounts for suspension.
 
 ### 6.3 Postings - `AdminPostingsPage.jsx` (route `/admin/postings`, FR-AD3)
+**Screenshot:** `docs/prototype/admin/05-postings.jpg`
 - Title "Postings", subtitle "Review and moderate all published opportunities."
 - Search (posting or company) + status `Select` + training type `Select`.
 - `Table`: Posting, Company, Status, City, Deadline, actions **View** (→ `PATHS.listing(id)`) and **Remove** (danger).
 - Remove → `ConfirmDialog requireReason` → `update('listings', id, { status: 'removed', removedReason: reason })` + notify the company ("Removed by admin") + audit log. Removed rows show the reason in red under the title.
 
 ### 6.4 Imported listings - `ImportedListingsPage.jsx` (route `/admin/imports`, FR-AD4)
+**Screenshot:** `docs/prototype/admin/06-imported-listings.jpg`, `docs/prototype/admin/07-imports-compare-duplicates.jpg`
 - Title "Imported listings", subtitle "Review external opportunities before publishing them." Info line: "Listings imported from the external job listing API. Review before publishing."
 - "Review queue" with `Tabs` Waiting / Published / Rejected and a sort select (Newest first).
 - Each row: briefcase icon, title + outlined "External" badge, "Company · City", "Imported <time>", status badge (**Possible duplicate** when `duplicateOf`, **Missing info** when required fields are empty, otherwise **Ready to review**), buttons **Edit**, **Compare** (only for duplicates), **Publish**, **Reject**.
@@ -217,6 +226,7 @@ Every admin page: `useDocumentTitle`, `PageHeader` eyebrow **"Admin console"**, 
 - Empty tab → `EmptyState`.
 
 ### 6.5 External sources - `ExternalSourcesPage.jsx` (route `/admin/sources`, FR-AD5)
+**Screenshot:** `docs/prototype/admin/08-external-sources.jpg`
 - Title "External sources", subtitle "Manage approved sources used to import training listings.", action **Sync all sources**.
 - 3 stat chips: Enabled sources, Imported total, Sync issues.
 - One card per `externalSources` row (3 demo rows: Elm enabled, SABIC with an error, Ma'aden disabled): avatar, name, url, enable `Toggle`; rows: Status (green / grey dot + text), Sync schedule, Last sync, Listings found; footer **Sync now** and **Configure**.
@@ -226,6 +236,7 @@ Every admin page: `useDocumentTitle`, `PageHeader` eyebrow **"Admin console"**, 
   - **Configure** → `Modal` with sync schedule select (Every 6 hours / Every 12 hours / Daily).
 
 ### 6.6 Statistics - `StatisticsPage.jsx` (route `/admin/statistics`, FR-AD6)
+**Screenshot:** `docs/prototype/admin/09-statistics.jpg`
 - Title "Platform statistics", subtitle "Monitor activity and growth across InternConnect.", range switch (segmented `Tabs`): **7 days / 30 days / All time**.
 - 4 `StatCard`s: Student accounts, Verified companies, Active postings, Applications sent (+ Pending requests somewhere on the page). For the range, count records whose `createdAt` / `appliedAt` / `postedAt` is inside it (accounts and applications), current totals for the rest.
 - **Applications by status** card: one horizontal bar per status (same style as the company dashboard bars) with the count and a total.
