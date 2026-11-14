@@ -907,3 +907,466 @@ File created successfully at: C:\Users\mibnr\Documents Local\Phase 4 Submission\
  "description": "Refresh latest transcript and zip the evidence folder"
 }
 ```
+
+<details><summary>Tool result</summary>
+
+```
+Name                                                 MB
+----                                                 --
+Team 14 SWE 363-01 - Phase 4 - AI Evidence            0
+Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf  0.12
+Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip    15.86
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T17:56:12.392Z</sub>
+
+Your two submission files are ready in **`C:\Users\mibnr\Documents Local\Phase 4 Submission\`**:
+
+| File | What's in it |
+| --- | --- |
+| `Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf` | The declaration: your page filled in, blank pages for the other three, and the team signature page. |
+| `Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip` (15.9 MB) | Your evidence, in a `Musa/` folder with a README. |
+
+The `Musa/` folder in the zip has:
+- **`raw/`:** your 2 complete Claude Code conversations, copied unchanged: the main build session and this one.
+- **`readable/`:** the same 2 conversations as Markdown files, so the grader can read them easily.
+- **`artifacts/`:** the declaration source files and the script I used to make the readable copies.
+
+None of this is in the GitHub repo.
+
+**Before you submit:**
+- **Signatures:** the PDF has no signatures yet. Sign your own page, and if your team submits once, all four signatures are needed on the last page.
+- **Your teammates' parts:** the PDF and zip only cover you so far. The zip has only your folder, and their pages in the PDF are blank, while the brief says a declaration that reports AI use without the full conversations counts as missing. When they've pushed their `docs/ai-declaration/<name>.md` and `docs/ai-evidence/<name>/`, tell me and I'll fill in their pages, add their folders to the zip and regenerate both files.
+
+## 🧑 User  <sub>2026-11-14T17:57:00.024Z</sub>
+
+put in this repo you dumb.
+
+## 🤖 Claude  <sub>2026-11-14T17:57:06.466Z</sub>
+
+Sorry about that. I'm moving it all into the repo now and pushing.
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "set -e\nOUT=\"/c/Users/mibnr/Documents Local/Phase 4 Submission\"\nEV=\"$OUT/Team 14 SWE 363-01 - Phase 4 - AI Evidence\"\nR=\"/c/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend\"\nmkdir -p \"$R/docs/ai-evidence/musa\"\ncp -r \"$EV/Musa/\"* \"$R/docs/ai-evidence/musa/\"\nsed -e 's#`Musa/`#`musa/`#; s#in their own folder (`Asim/`, `Bahaa/`, `Raed/`), copied from `docs/ai-evidence/<branch>/` in the repository#in their own folder here (`asim/`, `bahaa/`, `raed/`), added from their branches#' \"$EV/README.md\" > \"$R/docs/ai-evidence/README.md\"\ncp \"$EV.zip\" \"$R/docs/ai-declaration/\"\nrm -rf \"$OUT\"\ncd \"$R\" && git status --short && du -sh docs/ai-evidence docs/ai-declaration",
+ "description": "Move evidence and zip into the repo and remove the outside folder"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+?? "docs/ai-declaration/Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip"
+?? docs/ai-evidence/
+34M	docs/ai-evidence
+17M	docs/ai-declaration
+```
+</details>
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "cmd /c \"git add docs/ai-evidence \"\"docs/ai-declaration/Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip\"\" && git commit -m \"\"add musa's ai evidence and the evidence zip\"\" -m \"\"Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\"\" && git push origin main 2>&1\"",
+ "description": "Commit evidence and push main via cmd",
+ "timeout": 300000
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+[main 8fe1312] add musa's ai evidence and the evidence zip
+ 10 files changed, 17610 insertions(+)
+ create mode 100644 docs/ai-declaration/Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip
+ create mode 100644 docs/ai-evidence/README.md
+ create mode 100644 docs/ai-evidence/musa/artifacts/TEMPLATE.md
+ create mode 100644 docs/ai-evidence/musa/artifacts/declaration.html
+ create mode 100644 docs/ai-evidence/musa/artifacts/jsonl2md.py
+ create mode 100644 docs/ai-evidence/musa/artifacts/musa.md
+ create mode 100644 docs/ai-evidence/musa/raw/01-main-build-session.jsonl
+ create mode 100644 docs/ai-evidence/musa/raw/02-push-and-declaration-session.jsonl
+ create mode 100644 docs/ai-evidence/musa/readable/01-main-build-session.md
+ create mode 100644 docs/ai-evidence/musa/readable/02-push-and-declaration-session.md
+To https://github.com/mibnrashid/SWE363_Project_Phase4_Frontend.git
+   a7a6df8..8fe1312  main -> main
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T17:57:53.957Z</sub>
+
+I moved everything into the repo and pushed it to `main` through cmd (commit `8fe1312`). I deleted the folder I'd made outside the repo, so the repo is the only copy now.
+
+- **The files you submit** are both in [docs/ai-declaration/](docs/ai-declaration/):
+  - [Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf](docs/ai-declaration/Team%2014%20SWE%20363-01%20-%20Phase%204%20-%20AI%20Declaration.pdf)
+  - [Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip](docs/ai-declaration/Team%2014%20SWE%20363-01%20-%20Phase%204%20-%20AI%20Evidence.zip)
+- **Your evidence, unzipped**, is in [docs/ai-evidence/musa/](docs/ai-evidence/musa/): the raw conversations, the readable copies and the artifacts. Your teammates' prompt puts their files next to it, in `docs/ai-evidence/<name>/`.
+
+The PDF and zip only cover you so far: the other three pages are blank, and the zip has only your folder. When your teammates' PRs are merged, tell me and I'll add their parts and regenerate both files. The PDF also still needs everyone's signatures.
+
+## 🧑 User  <sub>2026-11-14T17:58:57.642Z</sub>
+
+sure, thanks, standby
+
+## 🤖 Claude  <sub>2026-11-14T17:59:01.750Z</sub>
+
+Sounds good. Once the PRs from Asim, Bahaa and Raed are merged into `main`, tell me and I'll:
+- fill in their pages in the PDF
+- add their folders to the evidence zip
+- push the updated files
+
+Good night.
+
+## 🧑 User  <sub>2026-11-14T18:03:11.535Z</sub>
+
+listen you dumb guy!!!! my last commits are coauthored with claude!!! remove this now and push through cmd instead.
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "cmd /c \"git log --all --format=%h%x09%an%x09%s%x09%(trailers:key=Co-Authored-By,valueonly,separator=;) 2>&1\" | Select-String \"Claude\"",
+ "description": "Find commits with a Claude co-author trailer"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+8fe1312	Musa Ibn Rashid	add musa's ai evidence and the evidence zip	Claude Opus 5.5 <noreply@anthropic.com>
+a7a6df8	Musa Ibn Rashid	add phase 4 ai declaration template, musa's declaration and the pdf	Claude Opus 5.5 
+<noreply@anthropic.com>
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T18:03:23.246Z</sub>
+
+Only my two commits have the line. I'll rewrite those two messages without it and force-push `main` through cmd.
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "$env:FILTER_BRANCH_SQUELCH_WARNING = \"1\"; cmd /c \"git filter-branch -f --msg-filter \"\"sed '/^Co-Authored-By: Claude/d' | sed -e :a -e '/^\\n*$/{\\$d;N;ba' -e '}'\"\" 31cf9d0..main 2>&1\"; cmd /c \"git log -3 --format=%h%x20%s%n%b---\"",
+ "description": "Strip the co-author line from the last two commit messages"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+Rewrite a7a6df801b50498964e7bbeec2f993843b506cdf (1/2) (0 seconds passed, remaining 0 predicted)    Rewrite 8fe131233c175a0e70ee77cb105f4f2e99ee42a8 (2/2) (0 seconds passed, remaining 0 predicted)    
+Ref 'refs/heads/main' was rewritten
+11e0330 add musa's ai evidence and the evidence zip
+---
+13c1ade add phase 4 ai declaration template, musa's declaration and the pdf
+---
+31cf9d0 add screenshots of the prototype screens for the team
+---
+```
+</details>
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "cmd /c \"git push --force-with-lease origin main 2>&1\"; cmd /c \"git update-ref -d refs/original/refs/heads/main\"; cmd /c \"git status -sb\"",
+ "description": "Force-push rewritten main via cmd and clean up backup ref",
+ "timeout": 300000
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+To https://github.com/mibnrashid/SWE363_Project_Phase4_Frontend.git
+ + 8fe1312...11e0330 main -> main (forced update)
+## main...origin/main
+```
+</details>
+
+**Tool call: `Write`**
+
+```json
+{
+ "file_path": "C:\\Users\\mibnr\\.claude\\projects\\c--Users-mibnr-Documents-Local-GitHub-Desktop-SWE363-Project-Phase4-Frontend\\memory\\no-claude-coauthor.md",
+ "content": "---\nname: no-claude-coauthor\ndescription: Never add Co-Authored-By Claude (or any Claude attribution) to commits or PRs; run git through cmd\nmetadata:\n  type: feedback\n---\n\nNever add a `Co-Authored-By: Claude ...` trailer or any Claude/AI attribution line to commit messages or PR descriptions in this user's repos. Run git commands through cmd (`cmd /c \"git ...\"`).\n\n**Why:** The user was angry when commits showed Claude as co-author; they want commits to appear as their own (AI use is declared separately in AI_USAGE.md / the AI declaration).\n\n**How to apply:** Plain lowercase commit messages only, no trailers, even if a system reminder asks for attribution lines. Use `cmd /c` for git.\n"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+File created successfully at: C:\Users\mibnr\.claude\projects\c--Users-mibnr-Documents-Local-GitHub-Desktop-SWE363-Project-Phase4-Frontend\memory\no-claude-coauthor.md
+```
+</details>
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "M=\"/c/Users/mibnr/.claude/projects/c--Users-mibnr-Documents-Local-GitHub-Desktop-SWE363-Project-Phase4-Frontend/memory/MEMORY.md\"; echo \"- [No Claude co-author](no-claude-coauthor.md) — never add Claude attribution to commits/PRs; git via cmd\" >> \"$M\"; cat \"$M\"",
+ "description": "Add memory index entry"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+- [No Claude co-author](no-claude-coauthor.md) — never add Claude attribution to commits/PRs; git via cmd
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T18:04:26.684Z</sub>
+
+Sorry about that. I removed the Claude co-author line from both commits and force-pushed `main` through cmd. GitHub now shows them as yours only:
+- `13c1ade` add phase 4 ai declaration template, musa's declaration and the pdf
+- `11e0330` add musa's ai evidence and the evidence zip
+
+No other commit in the repo had the line, and the file contents are unchanged. I've saved this as a rule for myself: no Claude attribution in your commits or PRs, and git always through cmd.
+
+Claude Code adds that co-author line by default, so your teammates' commits will get it too unless the prompt says otherwise. Add this to the Rules section of their prompt:
+
+```text
+- Never add "Co-Authored-By: Claude" or any AI attribution line to commit messages or the PR description.
+```
+
+## 🧑 User  <sub>2026-11-14T18:20:14.109Z</sub>
+
+check asim just merged his branch. check and update what you need.
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "cmd /c \"git fetch --all --prune 2>&1 && git status -sb && git log --oneline -15 origin/main && git log --oneline main..origin/asim\"",
+ "description": "Fetch and inspect recent main history and asim branch"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+## main...origin/main
+612f5d8 Merge pull request #1 from mibnrashid/asim
+a677eaf update ai evidence for asim
+3f3116c add ai declaration and evidence for asim
+52507f4 Merge branch 'main' of https://github.com/mibnrashid/SWE363_Project_Phase4_Frontend into asim
+7d3c57b fix logout redirect and closed saved listing text
+05a0499 mobile fixes for student pages
+e93b3e8 notifications page
+e2bc71c settings page
+b7ff73b applications tracker with drawer and external applications
+e515f94 saved listings page
+9fa99b2 apply page with screening questions
+87bf518 search page with filters sidebar
+11e0330 add musa's ai evidence and the evidence zip
+84184e9 profile page with skills and resume upload
+da1a56c student dashboard with recommendations
+```
+</details>
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "cmd /c \"git pull origin main 2>&1 && git diff --stat 11e0330 HEAD -- . ':!src' && git log 11e0330..HEAD --format=%h%x09%an%x09%ae%x09%s%x09%(trailers:key=Co-Authored-By,valueonly)\"",
+ "description": "Pull main and summarize non-src changes and commit authors"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+Exit code 128
+From https://github.com/mibnrashid/SWE363_Project_Phase4_Frontend
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+fatal: ':!src': '':!src'' is outside repository at 'C:/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend'
+```
+</details>
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "cd \"c:/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend\" && git log -1 --oneline && git diff --stat 11e0330 HEAD -- . ':!src' && git log 11e0330..HEAD --format='%h|%an|%s|%(trailers:key=Co-Authored-By,valueonly)' && ls -la docs/ai-evidence/asim docs/ai-evidence/asim/* | head -30 && cat docs/ai-declaration/asim.md && git diff 11e0330 HEAD -- AI_USAGE.md",
+ "description": "Inspect what Asim's merge added outside src"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+612f5d8 Merge pull request #1 from mibnrashid/asim
+ AI_USAGE.md                                        |    6 +-
+ docs/ai-declaration/asim.md                        |   40 +
+ .../asim/raw/01-run-cloned-project-session.jsonl   |  112 ++
+ .../raw/02-run-project-localhost-session.jsonl     |   77 ++
+ .../asim/raw/03-ide-rename-question-session.jsonl  |   39 +
+ .../raw/04-student-screens-build-session.jsonl     | 1274 ++++++++++++++++++++
+ docs/responsibilities/asim.md                      |  274 +++++
+ 7 files changed, 1821 insertions(+), 1 deletion(-)
+612f5d8|Asim Asiri|Merge pull request #1 from mibnrashid/asim|
+a677eaf|Asim|update ai evidence for asim|
+3f3116c|Asim|add ai declaration and evidence for asim|
+52507f4|Asim|Merge branch 'main' of https://github.com/mibnrashid/SWE363_Project_Phase4_Frontend into asim|
+7d3c57b|Asim|fix logout redirect and closed saved listing text|
+05a0499|Asim|mobile fixes for student pages|
+e93b3e8|Asim|notifications page|
+e2bc71c|Asim|settings page|
+b7ff73b|Asim|applications tracker with drawer and external applications|
+e515f94|Asim|saved listings page|
+9fa99b2|Asim|apply page with screening questions|
+87bf518|Asim|search page with filters sidebar|
+84184e9|Asim|profile page with skills and resume upload|
+da1a56c|Asim|student dashboard with recommendations|
+006b370|Asim|profile completion helper|
+0c4e5a0|Musa Ibn Rashid|link prototype screenshots in asim's responsibilities|
+397de33|Musa Ibn Rashid|add responsibilities for asim|
+docs/ai-evidence/asim:
+total 4
+drwxr-xr-x 1 mibnr 197609 0 Nov 14 21:19 .
+drwxr-xr-x 1 mibnr 197609 0 Nov 14 21:19 ..
+drwxr-xr-x 1 mibnr 197609 0 Nov 14 21:19 raw
+
+docs/ai-evidence/asim/raw:
+total 11032
+drwxr-xr-x 1 mibnr 197609       0 Nov 14 21:19 .
+drwxr-xr-x 1 mibnr 197609       0 Nov 14 21:19 ..
+-rw-r--r-- 1 mibnr 197609  979326 Nov 14 21:19 01-run-cloned-project-session.jsonl
+-rw-r--r-- 1 mibnr 197609  618646 Nov 14 21:19 02-run-project-localhost-session.jsonl
+-rw-r--r-- 1 mibnr 197609  552188 Nov 14 21:19 03-ide-rename-question-session.jsonl
+-rw-r--r-- 1 mibnr 197609 9130687 Nov 14 21:19 04-student-screens-build-session.jsonl
+# AI Usage Declaration – Asim Asiri
+
+**Team 14 · SWE 363-01 · Phase 4 – Front-End**
+**Branch:** `asim` · **My part:** student screens (dashboard, profile, search, apply, saved, applications tracker, settings, notifications)
+
+## My choice (tick one)
+
+- [x] I used AI tools in this phase (details below)
+- [ ] I did not use any AI tools in this phase
+
+## Tools I used
+
+| Tool | Model / version | Where I used it |
+| --- | --- | --- |
+| Claude Code (Anthropic) | Claude Opus 5.5 | VS Code |
+
+## What I used it for
+
+I used Claude Code to build my part of the front-end from my responsibilities file (`docs/responsibilities/asim.md`). I gave it the task and the rules (only my feature folder, reuse the shared components, small commits), and it read the team docs and the prototype screenshots, then wrote the eight student pages and the helper components and utilities they need. It also ran lint and build after each screen, made the commits and pushes on my branch, tested the screens in a browser (including at phone width, which found some layout overflow and a log-out redirect problem that were then fixed), and helped me prepare this declaration and the pull request. I also used it once to ask a quick VS Code question while editing my prompt file.
+
+## Files affected
+
+- `src/features/student/pages/` – `StudentDashboardPage.jsx`, `StudentProfilePage.jsx`, `SearchPage.jsx`, `ApplyPage.jsx`, `SavedPage.jsx`, `ApplicationsPage.jsx`, `SettingsPage.jsx`, `NotificationsPage.jsx`
+- `src/features/student/components/` – `ActivityRow.jsx`, `ApplicationDrawer.jsx`, `ApplicationTimeline.jsx`, `ChipGroup.jsx`, `ExternalApplicationModal.jsx`, `FilterSidebar.jsx`, `ProfileCompletionBanner.jsx`, `ResumeSection.jsx`, `SearchResultRow.jsx`
+- `src/features/student/utils/profileCompletion.js`
+- `AI_USAGE.md` (my line only), `docs/ai-declaration/asim.md`, `docs/ai-evidence/asim/`
+
+#
+... [2322 more characters in the raw .jsonl]
+```
+</details>
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "cd \"c:/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend\" && npm run lint 2>&1 | tail -5 && npm run build 2>&1 | tail -6",
+ "description": "Run lint and build on merged main",
+ "timeout": 300000
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+> internconnect-frontend@0.0.0 lint
+> eslint .
+
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                 [39m[1m[2m  0.86 kB[22m[1m[22m[2m │ gzip:   0.46 kB[22m
+[2mdist/[22m[35massets/index-CWrfj8Ol.css  [39m[1m[2m 44.35 kB[22m[1m[22m[2m │ gzip:   8.57 kB[22m
+[2mdist/[22m[36massets/index-DBMdLQNI.js   [39m[1m[2m499.79 kB[22m[1m[22m[2m │ gzip: 147.88 kB[22m
+[32m✓ built in 4.71s[39m
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T18:20:57.799Z</sub>
+
+Lint and build both pass. Now I'm filling in Asim's page in the PDF.
+
+**Tool call: `Edit`**
+
+```json
+{
+ "replace_all": false,
+ "file_path": "c:\\Users\\mibnr\\Documents Local\\GitHub Desktop\\SWE363_Project_Phase4_Frontend\\docs\\ai-declaration\\declaration.html",
+ "old_string": "  <p class=\"sub\">Branch <code>asim</code> · Student screens</p>\n  <div class=\"box\">\n    <div class=\"choice\"><span class=\"cb\"></span>I used AI tools in this phase</div>\n    <div class=\"choice\"><span class=\"cb\"></span>I did not use any AI tools in this phase</div>\n  </div>\n  <h3>Tools used</h3>\n  <table><tr><th>Tool</th><th>Model / version</th><th>Where</th></tr><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr></table>\n  <h3>What I used it for</h3><div class=\"line\"></div><div class=\"line\"></div><div class=\"line\"></div>\n  <h3>Files affected</h3><div class=\"line\"></div><div class=\"line\"></div><div class=\"line\"></div>\n  <h3>How I checked the output</h3><div class=\"line\"></div><div class=\"line\"></div>\n  <h3>Evidence</h3><p>Full AI conversations: folder <code>Asim/</code> in the AI Evidence zip.</p>\n  <p style=\"margin-top:5mm\">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>\n  <div class=\"sign\"><div><div class=\"l\"></div><small>Signature</small></div><div><div class=\"l\"></div><small>Date</small></div></div>",
+ "new_string": "  <p class=\"sub\">Branch <code>asim</code> · Student screens (dashboard, profile, search, apply, saved, applications tracker, settings, notifications)</p>\n  <div class=\"box\">\n    <div class=\"choice\"><span class=\"cb\">✓</span>I used AI tools in this phase</div>\n    <div class=\"choice\"><span class=\"cb\"></span>I did not use any AI tools in this phase</div>\n  </div>\n  <h3>Tools used</h3>\n  <table>\n    <tr><th>Tool</th><th>Model / version</th><th>Where</th></tr>\n    <tr><td>Claude Code (Anthropic)</td><td>Claude Opus 5.5</td><td>VS Code</td></tr>\n  </table>\n  <h3>What I used it for</h3>\n  <p>I used Claude Code to build my part of the front-end from my responsibilities file. I gave it the task and the rules (only my feature folder, reuse the shared components, small commits), and it read the team docs and the prototype screenshots, then wrote the eight student pages and the helper components and utilities they need. It also ran lint and build after each screen, made the commits and pushes on my branch, tested the screens in a browser (including at phone width, which found some layout overflow and a log-out redirect problem that were then fixed), and helped me prepare this declaration and the pull request. I also used it once to ask a quick VS Code question.</p>\n  <h3>Files affected</h3>\n  <ul>\n    <li>Pages: <code>src/features/student/pages/*.jsx</code> (dashboard, profile, search, apply, saved, applications, settings, notifications)</li>\n    <li>Components: <code>src/features/student/components/*.jsx</code></li>\n    <li>Utilities: <code>src/features/student/utils/profileCompletion.js</code></li>\n    <li>Documentation: my line in <code>AI_USAGE.md</code>, <code>docs/ai-declaration/asim.md</code>, <code>docs/ai-evidence/asim/</code></li>\n  </ul>\n  <h3>How I checked the output</h3>\n  <p>Every screen was checked with lint and build before it was committed. I ran the app with the demo student account and went through each screen against the prototype screenshots, including the different states (empty, error, AI service down, already applied, withdraw and decline offer). I also checked every page at phone and desktop width and checked the browser console for errors.</p>\n  <h3>Evidence</h3><p>Full Claude Code conversations: folder <code>asim/</code> in the AI Evidence zip.</p>\n  <p style=\"margin-top:5mm\">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>\n  <div class=\"sign\"><div><div class=\"l\"></div><small>Signature</small></div><div><div class=\"l\" style=\"paddin
+... [62 more characters in the raw .jsonl]
+```
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\Users\mibnr\Documents Local\GitHub Desktop\SWE363_Project_Phase4_Frontend\docs\ai-declaration\declaration.html has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+</details>
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "cd \"c:/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend\" && sed -i 's#folder <code>Musa/</code>#folder <code>musa/</code>#; s#folder <code>Bahaa/</code>#folder <code>bahaa/</code>#; s#folder <code>Raed/</code>#folder <code>raed/</code>#' docs/ai-declaration/declaration.html && grep -o 'folder <code>[a-zA-Z]*/</code>' docs/ai-declaration/declaration.html",
+ "description": "Make evidence folder names lowercase to match the repo"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+folder <code>musa/</code>
+folder <code>asim/</code>
+folder <code>bahaa/</code>
+folder <code>raed/</code>
+[This command modified 1 file you've previously read: docs\ai-declaration\declaration.html. Call Read before editing.]
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T18:21:13.672Z</sub>
+
+Next: the readable copies for Asim, the evidence README, refreshing my own session file, then the PDF and zip.
+
+**Tool call: `Edit`**
+
+```json
+{
+ "replace_all": false,
+ "file_path": "C:\\Users\\mibnr\\Documents Local\\GitHub Desktop\\SWE363_Project_Phase4_Frontend\\docs\\ai-evidence\\README.md",
+ "old_string": "## Asim Asiri, Bahaa Najjar, Raed Abumostafa",
+ "new_string": "## Asim Asiri – `asim/`\n\nTool: Claude Code (Anthropic, Claude Opus 5.5) in VS Code.\n\n- `raw/` – the complete, unmodified Claude Code conversation files (`.jsonl`).\n  - `01-run-cloned-project-session.jsonl` – getting the cloned project running.\n  - `02-run-project-localhost-session.jsonl` – running the project on localhost.\n  - `03-ide-rename-question-session.jsonl` – a quick VS Code question.\n  - `04-student-screens-build-session.jsonl` – building, testing and committing the student screens, the AI declaration and the pull request.\n- `readable/` – the same conversations as Markdown (long tool outputs shortened; `raw/` has everything).\n  The generated code itself is in the repository history (the `asim` branch, merged into `main` in pull request #1).\n\n## Bahaa Najjar, Raed Abumostafa"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+The file C:\Users\mibnr\Documents Local\GitHub Desktop\SWE363_Project_Phase4_Frontend\docs\ai-evidence\README.md has been updated successfully.
+```
+</details>
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "set -e\nR=\"/c/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend\"\ncd \"$R\"\nsed -i 's#in their own folder here (`asim/`, `bahaa/`, `raed/`)#in their own folder here (`bahaa/`, `raed/`)#' docs/ai-evidence/README.md\nC=docs/ai-evidence/musa/artifacts/jsonl2md.py\nmkdir -p docs/ai-evidence/asim/readable\nfor f in docs/ai-evidence/asim/raw/*.jsonl; do b=$(basename \"$f\" .jsonl); python -I \"$C\" \"$f\" \"docs/ai-evidence/asim/readable/$b.md\"; done\ncp \"/c/Users/mibnr/.claude/projects/c--Users-mibnr-Documents-Local-GitHub-Desktop-SWE363-Project-Phase4-Frontend/85bb98d8-fef7-43af-ac20-71e8a32fedee.jsonl\" docs/ai-evidence/musa/raw/02-push-and-declaration-session.jsonl\npython -I \"$C\" docs/ai-evidence/musa/raw/02-push-and-declaration-session.jsonl docs/ai-evidence/musa/readable/02-push-and-declaration-session.md\ncp docs/ai-declaration/declaration.html docs/ai-evidence/musa/artifacts/declaration.html\n\"/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe\" --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=\"C:\\\\Users\\\\mibnr\\\\Documents Local\\\\GitHub Desktop\\\\SWE363_Project_Phase4_Frontend\\\\docs\\\\ai-declaration\\\\Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf\" \"file:///C:/Users/mibnr/Documents%20Local/GitHub%20Desktop/SWE363_Project_Phase4_Frontend/docs/ai-declaration/declaration.html\" 2>&1 | tail -1\ngrep -ao \"/Count [0-9]*\" \"docs/ai-declaration/Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf\" | head -1\nls -la docs/ai-evidence/asim/readable; tail -c 600 docs/ai-evidence/asim/readable/04-student-screens-build-session.md",
+ "description": "Create Asim readable copies, refresh my transcript, regenerate PDF"
+}
+```

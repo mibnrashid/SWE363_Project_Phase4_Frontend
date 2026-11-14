@@ -14,6 +14,18 @@ Tool: Claude Code (Anthropic, Claude Opus 5.5) in VS Code.
 - `artifacts/` – intermediate files produced with AI: the declaration source (`declaration.html`), `musa.md`, the declaration template, and the script used to make the readable copies.
   The generated code itself is in the GitHub repository commit history on `main`.
 
-## Asim Asiri, Bahaa Najjar, Raed Abumostafa
+## Asim Asiri – `asim/`
 
-Each member's conversations are in their own folder here (`asim/`, `bahaa/`, `raed/`), added from their branches.
+Tool: Claude Code (Anthropic, Claude Opus 5.5) in VS Code.
+
+- `raw/` – the complete, unmodified Claude Code conversation files (`.jsonl`).
+  - `01-run-cloned-project-session.jsonl` – getting the cloned project running.
+  - `02-run-project-localhost-session.jsonl` – running the project on localhost.
+  - `03-ide-rename-question-session.jsonl` – a quick VS Code question.
+  - `04-student-screens-build-session.jsonl` – building, testing and committing the student screens, the AI declaration and the pull request.
+- `readable/` – the same conversations as Markdown (long tool outputs shortened; `raw/` has everything).
+  The generated code itself is in the repository history (the `asim` branch, merged into `main` in pull request #1).
+
+## Bahaa Najjar, Raed Abumostafa
+
+Each member's conversations are in their own folder here (`bahaa/`, `raed/`), added from their branches.
