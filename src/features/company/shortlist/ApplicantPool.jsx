@@ -57,7 +57,7 @@ function PoolRow({ app, checked, onToggle }) {
 export default function ApplicantPool({ apps, sort, onSortChange, selected, onToggle, onAddToTable }) {
   const count = selected.size
   return (
-    <section className="flex flex-col rounded-xl border border-line bg-white">
+    <section className="flex min-w-0 flex-col rounded-xl border border-line bg-white">
       <header className="flex flex-wrap items-end justify-between gap-3 p-5">
         <div>
           <h2 className="text-xl font-bold">Applicants</h2>

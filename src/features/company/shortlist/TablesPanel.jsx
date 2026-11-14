@@ -14,7 +14,7 @@ export default function TablesPanel({
   reasonOf,
 }) {
   return (
-    <section className="self-start rounded-xl border border-line bg-white">
+    <section className="min-w-0 self-start rounded-xl border border-line bg-white">
       <header className="flex items-start justify-between gap-3 p-4">
         <div>
           <h2 className="text-xl font-bold">Tables</h2>
