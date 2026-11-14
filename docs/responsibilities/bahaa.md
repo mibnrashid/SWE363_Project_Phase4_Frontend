@@ -43,6 +43,7 @@ AI_USAGE.md                          (ONLY the line under "### Bahaa Najjar")
 
 ## 2. Design reference
 
+- **Screenshots of every screen are in this repo: [`docs/prototype/`](../prototype/README.md)** (start here - no Figma login needed). Each screen below lists its screenshot. If you use an AI assistant (e.g. Claude Code), point it at the image, for example: *"Build `src/features/...` to match `docs/prototype/...jpg`, following docs/responsibilities/bahaa.md section 4.x"*. Read `docs/prototype/README.md` first: it lists what to ignore in the images (the Figma top bar and the grey PROTOTYPE STATES bars).
 - **Figma Make prototype:** https://www.figma.com/make/Kq6KXCPbxBB8ZD8cK04Jdz/InternConnect-Desktop-Prototype → **Company flow**. Match it as closely as you can.
 - **Annotated wireframes:** https://www.figma.com/design/TTgWHwlEfcfQgtLAXtT716/InternConnect---Phase-3-Annotated-Wireframes?node-id=0-1 → boards 13-16 and 18.
 - Ignore the grey "PROTOTYPE STATES" bars in the prototype. In our app states come from real data.
@@ -71,6 +72,7 @@ Demo data as Aramco Digital: **Software Engineering Co-op** (open, closes in 2 d
 Every page: `useDocumentTitle(...)`, `PageHeader` with eyebrow **"Company workspace"**, a toast for every action.
 
 ### 4.1 Dashboard - `src/features/company/pages/CompanyDashboardPage.jsx`
+**Screenshot:** `docs/prototype/company/01-dashboard-top.jpg`, `docs/prototype/company/02-dashboard-bottom.jpg`
 Route `/company` · Prototype: Company flow → Dashboard
 
 1. `PageHeader` title `Welcome back, ${profile.name}`, subtitle "Here's an overview of your recruitment activity.", action **+ New posting** → `PATHS.company.newPosting`.
@@ -83,6 +85,7 @@ Route `/company` · Prototype: Company flow → Dashboard
 Empty company (no postings yet): `EmptyState` "You haven't posted any opportunities yet" + **+ New posting**.
 
 ### 4.2 My postings - `src/features/company/pages/PostingsPage.jsx`
+**Screenshot:** `docs/prototype/company/03-my-postings.jpg`
 Route `/company/postings` · FR-C3, FR-C4 · Prototype: Company flow → Listings
 
 Layout (prototype "My postings"):
@@ -108,6 +111,7 @@ Reopen (FR-C4): `Modal` "Reopen posting" with a **new deadline** date input (req
 Empty tab → short `EmptyState` (e.g. "No closed postings").
 
 ### 4.3 Posting form - `src/features/company/pages/PostingFormPage.jsx`
+**Screenshot:** `docs/prototype/company/04-posting-form-1-basic.jpg`, `docs/prototype/company/05-posting-form-2-eligibility-skills.jpg`, `docs/prototype/company/06-posting-form-3-details-questions.jpg`
 Routes `/company/postings/new` and `/company/postings/:listingId/edit` · FR-C2, FR-C3 · Prototype: Listings → + New posting ("Create a new posting")
 
 Layout (prototype):
@@ -136,6 +140,7 @@ Flow:
 - Editing someone else's posting or an unknown id → `EmptyState` "Posting not found".
 
 ### 4.4 Company profile - `src/features/company/pages/CompanyProfilePage.jsx`
+**Screenshot:** `docs/prototype/company/07-company-profile-top.jpg`, `docs/prototype/company/08-company-profile-bottom.jpg`
 Route `/company/profile` · FR-C1 · Prototype: Company flow → Profile
 
 - `PageHeader` title "Company profile", subtitle "This is what students see on your listings.", action **Save changes**.
@@ -146,6 +151,7 @@ Route `/company/profile` · FR-C1 · Prototype: Company flow → Profile
 - A small preview card on the right: "How students see you" (logo, name, industry · size, description) - optional but nice.
 
 ### 4.5 Applicants (all postings) - `src/features/company/pages/AllApplicantsPage.jsx`
+**Screenshot:** none in the prototype - use the same card/table style as company/03-my-postings.jpg
 Route `/company/applicants` (navbar "Applicants")
 
 - `PageHeader` title "Applicants", subtitle "Applications across all your postings."
@@ -154,6 +160,7 @@ Route `/company/applicants` (navbar "Applicants")
 - No postings → `EmptyState` + **+ New posting**.
 
 ### 4.6 Applicants of one posting - `src/features/company/pages/ApplicantsPage.jsx`
+**Screenshot:** `docs/prototype/company/10-applicants-posting-open-locked.jpg` (your header + Raed's lock card), `docs/prototype/company/11-applicants-closed-workspace.jpg` (Raed's workspace mode - your table uses the same columns)
 Route `/company/postings/:listingId/applicants` · FR-C5 · Prototype: postings → Applicants (screen 16)
 
 **This screen is shared with Raed. Read carefully.** The placeholder file already contains the split logic - keep it:
@@ -182,6 +189,7 @@ What you build:
 - **Never show match labels or scores to companies** (Phase 3 rule).
 
 ### 4.7 Applicant detail - `src/features/company/pages/ApplicantDetailPage.jsx`
+**Screenshot:** `docs/prototype/company/15-applicant-detail-top.jpg`, `docs/prototype/company/16-applicant-detail-resume.jpg`
 Route `/company/applicants/:applicationId` · FR-C6 · Prototype: click an applicant (screen 18)
 
 Layout (prototype):
