@@ -72,7 +72,7 @@ export function deadlineLabel(iso) {
 // weeks -> "6 months" / "8 weeks"
 export function durationLabel(weeks) {
   if (!weeks) return '-'
-  if (weeks % 4 === 0 && weeks >= 8) return `${weeks / 4} months`
+  if (weeks % 4 === 0 && weeks >= 12) return `${weeks / 4} months`
   return `${weeks} weeks`
 }
 
