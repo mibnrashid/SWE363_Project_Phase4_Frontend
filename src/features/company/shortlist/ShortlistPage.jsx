@@ -4,12 +4,12 @@
 */
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft, ChevronRight, ListChecks } from 'lucide-react'
-import { Avatar, Badge, Button, EmptyState, PageHeader, StatusBadge, Table, Td, Th } from '../../../components/ui'
+import { ArrowLeft, Check, ChevronRight, ListChecks } from 'lucide-react'
+import { Avatar, Badge, Button, ConfirmDialog, EmptyState, PageHeader, StatusBadge, Table, Td, Th } from '../../../components/ui'
 import { useAuth } from '../../../context/authContext'
 import { useToast } from '../../../context/toastContext'
 import { useStore } from '../../../store/useStore'
-import { addAuditLog } from '../../../store/actions'
+import { addAuditLog, setApplicationStatus } from '../../../store/actions'
 import { getApplicationsForListing, getListing, getStudent } from '../../../store/selectors'
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle'
 import { APP_STATUS } from '../../../lib/constants'
@@ -43,6 +43,7 @@ function exportRow(app) {
 }
 
 const today = () => new Date().toISOString().slice(0, 10)
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`
 
 export default function ShortlistPage() {
   const { listingId } = useParams()
@@ -50,6 +51,10 @@ export default function ShortlistPage() {
   const { user } = useAuth()
   const toast = useToast()
   const [exportOpen, setExportOpen] = useState(false)
+  const [finalizing, setFinalizing] = useState(false)
+  const [ticked, setTicked] = useState(() => new Set())
+  const [finalizeError, setFinalizeError] = useState('')
+  const [confirming, setConfirming] = useState(false)
   useDocumentTitle('Short-Listed applicants')
 
   const listing = getListing(db, listingId)
@@ -72,12 +77,6 @@ export default function ShortlistPage() {
     )
   }
 
-  const backLink = (
-    <Link to={PATHS.company.applicants(listing.id)} className="mt-3 inline-flex items-center gap-1 text-[13px] text-muted hover:text-ink">
-      <ArrowLeft className="size-3.5" /> Back to applicants
-    </Link>
-  )
-
   if (!listing.shortlistApprovedAt) {
     return (
       <>
@@ -95,6 +94,8 @@ export default function ShortlistPage() {
   }
 
   const finalized = Boolean(listing.finalizedAt)
+  const selectable = rows.filter((a) => a.status === APP_STATUS.SHORT_LISTED) // Withdrawn are skipped
+  const openings = listing.openings ?? 0
 
   const doExport = ({ format, columns }) => {
     downloadTable({
@@ -114,6 +115,55 @@ export default function ShortlistPage() {
     toast.success('Shortlist exported.')
   }
 
+  const toggle = (id) => {
+    setFinalizeError('')
+    setTicked((cur) => {
+      const next = new Set(cur)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const stopFinalizing = () => {
+    setFinalizing(false)
+    setTicked(new Set())
+    setFinalizeError('')
+  }
+
+  const askConfirm = () => {
+    if (ticked.size === 0) {
+      setFinalizeError('Select at least one applicant.')
+      return
+    }
+    if (ticked.size > openings) {
+      setFinalizeError(`You have ${openings} openings. Untick some applicants or add openings.`)
+      return
+    }
+    setConfirming(true)
+  }
+
+  // FR-C10: ticked -> Accepted, the rest of the shortlist -> Rejected, once only
+  const finalize = () => {
+    const accepted = selectable.filter((a) => ticked.has(a.id)).map((a) => a.id)
+    const rejected = selectable.filter((a) => !ticked.has(a.id)).map((a) => a.id)
+    const now = new Date().toISOString()
+    transaction((cur) => {
+      if (cur.listings.find((l) => l.id === listing.id)?.finalizedAt) return cur
+      let next = setApplicationStatus(cur, accepted, APP_STATUS.ACCEPTED, 'Accepted by the company')
+      next = setApplicationStatus(next, rejected, APP_STATUS.REJECTED, 'Not selected after the shortlist')
+      next = { ...next, listings: next.listings.map((l) => (l.id === listing.id ? { ...l, finalizedAt: now } : l)) }
+      return addAuditLog(next, {
+        action: 'Applicants finalized',
+        by: user?.name ?? 'Company',
+        details: `${listing.title} - ${accepted.length} accepted, ${rejected.length} rejected`,
+      })
+    })
+    setConfirming(false)
+    stopFinalizing()
+    toast.success('Applicants finalized.')
+  }
+
   return (
     <>
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
@@ -122,23 +172,61 @@ export default function ShortlistPage() {
           <h1 className="mt-2 text-3xl leading-tight sm:text-[40px]">Short-Listed applicants</h1>
           <div className="mt-1.5 flex flex-wrap items-center gap-2 text-sm text-muted">
             <span>
-              {listing.title} · {rows.length} applicant{rows.length === 1 ? '' : 's'}
+              {listing.title} · {plural(rows.length, 'applicant')}
             </span>
             <Badge tone="teal">Shortlist approved</Badge>
             {finalized && <Badge tone="success">Finalized</Badge>}
           </div>
-          {backLink}
+          <Link
+            to={PATHS.company.applicants(listing.id)}
+            className="mt-3 inline-flex items-center gap-1 text-[13px] text-muted hover:text-ink"
+          >
+            <ArrowLeft className="size-3.5" /> Back to applicants
+          </Link>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="secondary" onClick={() => setExportOpen(true)} disabled={rows.length === 0}>
             Export
           </Button>
+          {!finalized && !finalizing && (
+            <Button onClick={() => setFinalizing(true)} disabled={selectable.length === 0}>
+              Finalize
+            </Button>
+          )}
         </div>
       </div>
+
+      {finalizing && (
+        <div className="mb-4 flex flex-col gap-3 rounded-xl border border-primary/25 bg-primary-soft p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-2">
+            <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+            <div>
+              <p className="text-[13px] font-semibold text-ink">Select the applicants you want to accept</p>
+              <p className="text-[11px] text-muted">This posting currently has {plural(openings, 'opening')}.</p>
+              {finalizeError && (
+                <p className="mt-1 text-xs text-danger" role="alert">
+                  {finalizeError}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="secondary" onClick={stopFinalizing}>
+              Cancel
+            </Button>
+            <Button onClick={askConfirm}>Confirm accepted ({ticked.size})</Button>
+          </div>
+        </div>
+      )}
 
       <Table>
         <thead>
           <tr>
+            {finalizing && (
+              <Th className="w-10 pr-0">
+                <span className="sr-only">Accept</span>
+              </Th>
+            )}
             <Th>Applicant</Th>
             <Th>University</Th>
             <Th>Major</Th>
@@ -154,13 +242,26 @@ export default function ShortlistPage() {
         <tbody>
           {rows.length === 0 && (
             <tr>
-              <Td colSpan={8} className="py-10 text-center text-sm text-muted">
+              <Td colSpan={9} className="py-10 text-center text-sm text-muted">
                 Nobody is on this shortlist.
               </Td>
             </tr>
           )}
           {rows.map((app) => (
-            <tr key={app.id}>
+            <tr key={app.id} className={ticked.has(app.id) ? 'bg-primary-soft/40' : undefined}>
+              {finalizing && (
+                <Td className="w-10 pr-0">
+                  {app.status === APP_STATUS.SHORT_LISTED && (
+                    <input
+                      type="checkbox"
+                      className="size-4 cursor-pointer accent-primary"
+                      checked={ticked.has(app.id)}
+                      onChange={() => toggle(app.id)}
+                      aria-label={`Accept ${app.student?.name}`}
+                    />
+                  )}
+                </Td>
+              )}
               <Td>
                 <div className="flex items-center gap-3">
                   <Avatar name={app.student?.name} round size="sm" />
@@ -186,6 +287,15 @@ export default function ShortlistPage() {
       </Table>
 
       {exportOpen && <ExportModal open onClose={() => setExportOpen(false)} onDownload={doExport} />}
+
+      <ConfirmDialog
+        open={confirming}
+        title="Finalize hiring decisions?"
+        message={`${plural(ticked.size, 'applicant')} will be Accepted. ${plural(selectable.length - ticked.size, 'applicant')} will be Rejected.`}
+        confirmLabel="Confirm"
+        onCancel={() => setConfirming(false)}
+        onConfirm={finalize}
+      />
     </>
   )
 }
