@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { useStore } from '../../store/useStore'
 import { useToast } from '../../context/toastContext'
+import { useAiStatus } from '../../hooks/useAiStatus'
 import ConfirmDialog from '../ui/ConfirmDialog'
+import Toggle from '../ui/Toggle'
 import Logo from './Logo'
 
 export default function Footer() {
   const { resetDemoData } = useStore()
+  const { aiAvailable, setAiDown } = useAiStatus()
   const toast = useToast()
   const [confirmOpen, setConfirmOpen] = useState(false)
 
@@ -18,6 +21,10 @@ export default function Footer() {
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
           <span>© {new Date().getFullYear()} InternConnect</span>
+          <label className="flex cursor-pointer items-center gap-2" title="Demo: show what happens when the AI service is down">
+            <Toggle checked={!aiAvailable} onChange={(down) => setAiDown(down)} label="Simulate AI outage" className="scale-75" />
+            Simulate AI outage
+          </label>
           <button type="button" onClick={() => setConfirmOpen(true)} className="font-medium text-primary hover:underline">
             Reset demo data
           </button>
