@@ -8,6 +8,7 @@ This repository is the **React front-end prototype** for Milestone 4. There is n
 
 - Phase 3 annotated wireframes (Figma): https://www.figma.com/design/TTgWHwlEfcfQgtLAXtT716/InternConnect---Phase-3-Annotated-Wireframes?node-id=0-1
 - Phase 3 clickable prototype (Figma Make): https://www.figma.com/make/Kq6KXCPbxBB8ZD8cK04Jdz/InternConnect-Desktop-Prototype
+- Screenshots of every prototype screen: [docs/prototype/](docs/prototype/README.md)
 
 ---
 
