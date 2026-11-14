@@ -131,7 +131,7 @@ export default function StudentDashboardPage() {
       </section>
 
       {/* Closing soon + Recent applications */}
-      <div className="mt-8 grid gap-5 lg:grid-cols-2">
+      <div className="mt-8 grid gap-5 lg:grid-cols-2 [&>*]:min-w-0">
         <Card
           title="Closing soon"
           subtitle="Saved opportunities nearing their deadline"

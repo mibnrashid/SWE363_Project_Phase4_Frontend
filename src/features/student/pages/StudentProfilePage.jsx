@@ -138,7 +138,7 @@ export default function StudentProfilePage() {
 
       <div className="grid items-start gap-5 lg:grid-cols-[210px_1fr]">
         {/* section links + profile strength */}
-        <aside className="rounded-xl border border-line bg-white p-2 lg:sticky lg:top-24">
+        <aside className="min-w-0 rounded-xl border border-line bg-white p-2 lg:sticky lg:top-24">
           <nav className="flex gap-1 overflow-x-auto lg:flex-col">
             {SECTIONS.map((s) => (
               <button

@@ -167,9 +167,7 @@ export default function ApplicationsPage() {
                     <Th>Date applied</Th>
                     <Th>Status</Th>
                     <Th>Source</Th>
-                    <Th className="w-10">
-                      <span className="sr-only">Open</span>
-                    </Th>
+                    <Th className="w-10" aria-label="Open" />
                   </tr>
                 </thead>
                 <tbody>
