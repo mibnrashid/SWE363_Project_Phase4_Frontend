@@ -20,6 +20,7 @@ import { POSTING_STATUS } from '../../../lib/constants'
 import { AI_LABEL, REASON_UNAVAILABLE, reasonFor } from './reasons'
 import AddToTableModal from './AddToTableModal'
 import ApplicantPool from './ApplicantPool'
+import AssistantChat from './AssistantChat'
 import TableNameModal from './TableNameModal'
 import TablesPanel from './TablesPanel'
 import { ApprovedCard, LockedCard } from './WorkspaceModes'
@@ -216,6 +217,10 @@ export default function ShortlistWorkspace({ listing, applications }) {
           )}
         </DragOverlay>
       </DndContext>
+
+      <div className="mt-6">
+        <AssistantChat listing={listing} applications={applications} tables={tables} />
+      </div>
 
       {nameModal && (
         <TableNameModal
