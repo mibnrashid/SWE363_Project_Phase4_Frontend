@@ -15,7 +15,9 @@ import { GripVertical } from 'lucide-react'
 import { ConfirmDialog } from '../../../components/ui'
 import { useStore } from '../../../store/useStore'
 import { useToast } from '../../../context/toastContext'
+import { useAiStatus } from '../../../hooks/useAiStatus'
 import { POSTING_STATUS } from '../../../lib/constants'
+import { AI_LABEL, REASON_UNAVAILABLE, reasonFor } from './reasons'
 import AddToTableModal from './AddToTableModal'
 import ApplicantPool from './ApplicantPool'
 import TableNameModal from './TableNameModal'
@@ -46,6 +48,11 @@ export default function ShortlistWorkspace({ listing, applications }) {
   const [addOpen, setAddOpen] = useState(false)
   const [deleting, setDeleting] = useState(null)
   const [dragLabel, setDragLabel] = useState('')
+  const [showReasons, setShowReasons] = useState(false)
+  const { aiAvailable } = useAiStatus()
+  // FR-AI4 / FR-AI5: reasons are always labelled, and unavailable when the AI service is down
+  const reasonOf = (app) =>
+    aiAvailable ? `${AI_LABEL} · ${reasonFor(app.student, listing)}` : REASON_UNAVAILABLE
   // distance: clicks on checkboxes and links still work; delay: phones can still scroll
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -195,6 +202,9 @@ export default function ShortlistWorkspace({ listing, applications }) {
             appsById={appsById}
             onNewTable={() => setNameModal({ table: null })}
             tableHandlers={tableHandlers}
+            showReasons={showReasons}
+            onToggleReasons={setShowReasons}
+            reasonOf={reasonOf}
           />
         </div>
         <DragOverlay dropAnimation={null}>

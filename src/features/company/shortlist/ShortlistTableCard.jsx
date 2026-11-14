@@ -15,7 +15,7 @@ function rowDetails(student, columns) {
   return parts.join(' · ')
 }
 
-export function TableRow({ app, tableId, index, columns, readOnly, onRemove }) {
+export function TableRow({ app, tableId, index, columns, readOnly, reason, onRemove }) {
   const details = rowDetails(app.student, columns)
   // rows can be dragged to another table
   const { setNodeRef, listeners, attributes, isDragging } = useDraggable({
@@ -42,6 +42,7 @@ export function TableRow({ app, tableId, index, columns, readOnly, onRemove }) {
       <div className="min-w-0 flex-1">
         <p className="truncate text-[13px] font-semibold text-ink">{app.student?.name ?? 'Unknown student'}</p>
         {details && <p className="mt-0.5 text-[11px] text-muted">{details}</p>}
+        {reason && <p className="mt-0.5 text-[11px] leading-snug text-[#7a7424]">{reason}</p>}
       </div>
       {!readOnly && (
         <button
@@ -57,7 +58,7 @@ export function TableRow({ app, tableId, index, columns, readOnly, onRemove }) {
   )
 }
 
-export default function ShortlistTableCard({ table, appsById, readOnly, onRename, onSort, onToggleColumn, onDelete, onRemoveRow }) {
+export default function ShortlistTableCard({ table, appsById, readOnly, reasonOf, onRename, onSort, onToggleColumn, onDelete, onRemoveRow }) {
   const rows = table.applicationIds.map((id) => appsById[id]).filter(Boolean)
   const columns = table.columns ?? ['major']
   // the whole card is a drop zone for pool rows and rows from other tables
@@ -99,6 +100,7 @@ export default function ShortlistTableCard({ table, appsById, readOnly, onRename
               index={i}
               columns={columns}
               readOnly={readOnly}
+              reason={reasonOf ? reasonOf(app) : ''}
               onRemove={() => onRemoveRow(app.id)}
             />
           ))}
