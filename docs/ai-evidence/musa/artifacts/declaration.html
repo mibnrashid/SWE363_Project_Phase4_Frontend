@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Team 14 SWE 363-01 - Phase 4 - AI Declaration</title>
+<style>
+  @page { size: A4; margin: 18mm 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1f2937; font-size: 10.5pt; line-height: 1.45; margin: 0; }
+  h1 { font-size: 20pt; margin: 0 0 2mm; color: #111827; }
+  h2 { font-size: 14pt; margin: 0 0 1mm; color: #111827; }
+  h3 { font-size: 10.5pt; margin: 5mm 0 1.5mm; text-transform: uppercase; letter-spacing: .04em; color: #4b5563; }
+  p { margin: 0 0 2mm; }
+  .meta { color: #4b5563; margin-bottom: 6mm; }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  .sub { color: #4b5563; margin-bottom: 3mm; }
+  .box { border: 1px solid #d1d5db; border-radius: 4px; padding: 3mm 4mm; }
+  .choice { margin: 1mm 0; }
+  .cb { display: inline-block; width: 4mm; height: 4mm; border: 1.2px solid #374151; vertical-align: -0.6mm; margin-right: 2mm; text-align: center; line-height: 3.6mm; font-size: 9pt; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1mm; }
+  th, td { border: 1px solid #d1d5db; padding: 1.8mm 2.5mm; text-align: left; vertical-align: top; }
+  th { background: #f3f4f6; font-weight: 600; }
+  ul { margin: 0; padding-left: 5mm; }
+  li { margin-bottom: .6mm; }
+  code { font-family: Consolas, monospace; font-size: 9pt; }
+  .line { border-bottom: 1px solid #9ca3af; height: 7mm; }
+  .sign { display: flex; gap: 8mm; margin-top: 6mm; }
+  .sign div { flex: 1; }
+  .sign .l { border-bottom: 1px solid #374151; height: 10mm; }
+  .sign small { color: #4b5563; }
+  .intro li { margin-bottom: 1.5mm; }
+  .sigtable td { height: 14mm; }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<section class="page">
+  <h1>Phase 4 – AI Usage Declaration</h1>
+  <p class="meta">InternConnect · Team 14 · SWE 363-01 · KFUPM</p>
+
+  <p>This document has an individual AI usage declaration from each team member for Phase 4 (Front-End), following the course AI Usage Guidelines. Every member signs their own declaration, and all members sign the team confirmation on the last page.</p>
+
+  <h3>Team</h3>
+  <table>
+    <tr><th>Member</th><th>Branch</th><th>Part of the front-end</th></tr>
+    <tr><td>Musa ibn Rashid</td><td><code>main</code></td><td>Project setup, shared code, guest and auth screens, docs</td></tr>
+    <tr><td>Asim Asiri</td><td><code>asim</code></td><td>Student screens</td></tr>
+    <tr><td>Bahaa Najjar</td><td><code>bahaa</code></td><td>Company screens</td></tr>
+    <tr><td>Raed Abumostafa</td><td><code>raed</code></td><td>Shortlist tables / assistant and admin screens</td></tr>
+  </table>
+
+  <h3>What comes with this declaration</h3>
+  <ul class="intro">
+    <li><b>AI Evidence zip</b> (<i>Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip</i>): the full AI conversations and intermediate artifacts, one folder per member who used AI.</li>
+    <li><b>AI_USAGE.md</b> in the root of the GitHub repository: a "Phase 4 – Front-End" section listing the AI tools used and the files affected for each member.</li>
+    <li>AI coding assistants, including autocomplete suggestions, are declared in each member's section.</li>
+  </ul>
+</section>
+
+<!-- Musa -->
+<section class="page">
+  <h2>Musa ibn Rashid</h2>
+  <p class="sub">Branch <code>main</code> · Project setup, shared code, guest and auth screens, team documentation</p>
+
+  <div class="box">
+    <div class="choice"><span class="cb">✓</span>I used AI tools in this phase</div>
+    <div class="choice"><span class="cb"></span>I did not use any AI tools in this phase</div>
+  </div>
+
+  <h3>Tools used</h3>
+  <table>
+    <tr><th>Tool</th><th>Model / version</th><th>Where</th></tr>
+    <tr><td>Claude Code (Anthropic)</td><td>Claude Opus 5.5</td><td>VS Code extension</td></tr>
+  </table>
+
+  <h3>What I used it for</h3>
+  <p>I used Claude Code to go through our Phase 1–3 documents and the Figma prototype, plan the front-end structure, and generate the project setup, the shared components, the demo data store, routing, and the guest and authentication screens. I also used it to write the README, CONTRIBUTING and AI_USAGE files, the responsibility file for each member branch, the toolbox and data model docs, and to push the branches to GitHub.</p>
+
+  <h3>Files affected</h3>
+  <ul>
+    <li>Project setup: <code>package.json</code>, <code>vite.config.js</code>, <code>eslint.config.js</code>, <code>index.html</code>, <code>.gitignore</code>, <code>.gitattributes</code>, <code>.env.example</code>, <code>public/*</code></li>
+    <li>Styles: <code>src/index.css</code></li>
+    <li>Shared code: <code>src/components/**</code>, <code>src/context/**</code>, <code>src/hooks/**</code>, <code>src/lib/**</code>, <code>src/routes/**</code>, <code>src/store/**</code>, <code>src/data/seed.js</code>, <code>src/App.jsx</code>, <code>src/main.jsx</code></li>
+    <li>Guest and auth screens: <code>src/features/guest/**</code>, <code>src/features/auth/**</code></li>
+    <li>Placeholder pages in <code>src/features/student|company|admin/**</code> (later replaced by each owner)</li>
+    <li>Documentation: <code>README.md</code>, <code>CONTRIBUTING.md</code>, <code>AI_USAGE.md</code>, <code>docs/**</code></li>
+  </ul>
+
+  <h3>How I checked the output</h3>
+  <p>I ran the app after each change, compared the screens with the Phase 3 prototype, ran lint and build, and adjusted the code before each commit.</p>
+
+  <h3>Evidence</h3>
+  <p>Full Claude Code conversations: folder <code>Musa/</code> in the AI Evidence zip.</p>
+
+  <p style="margin-top:5mm">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>
+  <div class="sign">
+    <div><div class="l"></div><small>Signature</small></div>
+    <div><div class="l" style="padding-top:4mm">2026-11-14</div><small>Date</small></div>
+  </div>
+</section>
+
+<!-- Fill-in pages for the other members -->
+<section class="page" data-member="asim">
+  <h2>Asim Asiri</h2>
+  <p class="sub">Branch <code>asim</code> · Student screens</p>
+  <div class="box">
+    <div class="choice"><span class="cb"></span>I used AI tools in this phase</div>
+    <div class="choice"><span class="cb"></span>I did not use any AI tools in this phase</div>
+  </div>
+  <h3>Tools used</h3>
+  <table><tr><th>Tool</th><th>Model / version</th><th>Where</th></tr><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr></table>
+  <h3>What I used it for</h3><div class="line"></div><div class="line"></div><div class="line"></div>
+  <h3>Files affected</h3><div class="line"></div><div class="line"></div><div class="line"></div>
+  <h3>How I checked the output</h3><div class="line"></div><div class="line"></div>
+  <h3>Evidence</h3><p>Full AI conversations: folder <code>Asim/</code> in the AI Evidence zip.</p>
+  <p style="margin-top:5mm">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>
+  <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l"></div><small>Date</small></div></div>
+</section>
+
+<section class="page" data-member="bahaa">
+  <h2>Bahaa Najjar</h2>
+  <p class="sub">Branch <code>bahaa</code> · Company screens</p>
+  <div class="box">
+    <div class="choice"><span class="cb"></span>I used AI tools in this phase</div>
+    <div class="choice"><span class="cb"></span>I did not use any AI tools in this phase</div>
+  </div>
+  <h3>Tools used</h3>
+  <table><tr><th>Tool</th><th>Model / version</th><th>Where</th></tr><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr></table>
+  <h3>What I used it for</h3><div class="line"></div><div class="line"></div><div class="line"></div>
+  <h3>Files affected</h3><div class="line"></div><div class="line"></div><div class="line"></div>
+  <h3>How I checked the output</h3><div class="line"></div><div class="line"></div>
+  <h3>Evidence</h3><p>Full AI conversations: folder <code>Bahaa/</code> in the AI Evidence zip.</p>
+  <p style="margin-top:5mm">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>
+  <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l"></div><small>Date</small></div></div>
+</section>
+
+<section class="page" data-member="raed">
+  <h2>Raed Abumostafa</h2>
+  <p class="sub">Branch <code>raed</code> · Shortlist tables / assistant and admin screens</p>
+  <div class="box">
+    <div class="choice"><span class="cb"></span>I used AI tools in this phase</div>
+    <div class="choice"><span class="cb"></span>I did not use any AI tools in this phase</div>
+  </div>
+  <h3>Tools used</h3>
+  <table><tr><th>Tool</th><th>Model / version</th><th>Where</th></tr><tr><td>&nbsp;</td><td></td><td></td></tr><tr><td>&nbsp;</td><td></td><td></td></tr></table>
+  <h3>What I used it for</h3><div class="line"></div><div class="line"></div><div class="line"></div>
+  <h3>Files affected</h3><div class="line"></div><div class="line"></div><div class="line"></div>
+  <h3>How I checked the output</h3><div class="line"></div><div class="line"></div>
+  <h3>Evidence</h3><p>Full AI conversations: folder <code>Raed/</code> in the AI Evidence zip.</p>
+  <p style="margin-top:5mm">I confirm this declaration is accurate and that I can explain all the code I committed, including the parts written with AI help.</p>
+  <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l"></div><small>Date</small></div></div>
+</section>
+
+<!-- Team sign-off -->
+<section class="page">
+  <h2>Team confirmation</h2>
+  <p class="sub">Team 14 · SWE 363-01 · Phase 4 – Front-End</p>
+  <p>We have read each other's declarations above and confirm that, to the best of our knowledge, they are complete and accurate.</p>
+  <table class="sigtable">
+    <tr><th style="width:34%">Member</th><th>Signature</th><th style="width:22%">Date</th></tr>
+    <tr><td>Musa ibn Rashid</td><td></td><td></td></tr>
+    <tr><td>Asim Asiri</td><td></td><td></td></tr>
+    <tr><td>Bahaa Najjar</td><td></td><td></td></tr>
+    <tr><td>Raed Abumostafa</td><td></td><td></td></tr>
+  </table>
+</section>
+
+</body>
+</html>
