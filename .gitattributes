@@ -1,0 +1,5 @@
+# keep line endings the same on every machine (avoids fake merge conflicts)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
