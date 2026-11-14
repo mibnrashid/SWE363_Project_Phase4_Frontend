@@ -2106,3 +2106,173 @@ The file C:\Users\mibnr\Documents Local\GitHub Desktop\SWE363_Project_Phase4_Fro
  "description": "Make Raed's readable copy, refresh my transcript, regenerate PDF"
 }
 ```
+
+<details><summary>Tool result</summary>
+
+```
+146612 bytes written to file C:\Users\mibnr\Documents Local\GitHub Desktop\SWE363_Project_Phase4_Frontend\docs\ai-declaration\Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf
+/Count 6
+total 360
+drwxr-xr-x 1 mibnr 197609      0 Nov 14 23:09 .
+drwxr-xr-x 1 mibnr 197609      0 Nov 14 23:09 ..
+-rw-r--r-- 1 mibnr 197609 364900 Nov 14 23:09 01-shortlist-and-admin-session.md
+10
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T20:09:24.183Z</sub>
+
+The PDF still fits on 6 pages, one per member. Now I'm rebuilding the zip, pushing `main`, and pointing the bahaa and raed branches at it.
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "$r = \"C:\\Users\\mibnr\\Documents Local\\GitHub Desktop\\SWE363_Project_Phase4_Frontend\"\n$stage = \"C:\\Users\\mibnr\\AppData\\Local\\Temp\\claude\\c735370189ee4380\\85bb98d8-fef7-43af-ac20-71e8a32fedee\\scratchpad\\zip\\Team 14 SWE 363-01 - Phase 4 - AI Evidence\"\nRemove-Item (Split-Path $stage) -Recurse -Force -Confirm:$false\nNew-Item -ItemType Directory -Force $stage | Out-Null\nCopy-Item \"$r\\docs\\ai-evidence\\*\" $stage -Recurse\nCompress-Archive -Path $stage -DestinationPath \"$r\\docs\\ai-declaration\\Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip\" -Force\n(Get-ChildItem $stage -Directory).Name -join \", \"\ncd $r\ncmd /c \"git add docs/ai-declaration docs/ai-evidence && git commit -q -m \"\"add raed and bahaa to the ai declaration pdf and evidence zip\"\" && git push origin main 2>&1\"\ncmd /c \"git push --force-with-lease origin main:bahaa main:raed main:asim 2>&1\"\ncmd /c \"git branch -f bahaa main 2>&1 & git branch -f raed main 2>&1 & git branch -f asim main 2>&1 & git status -sb\"",
+ "description": "Rebuild zip, push main, align member branches with main",
+ "timeout": 300000
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+asim, musa, raed
+To https://github.com/mibnrashid/SWE363_Project_Phase4_Frontend.git
+   3175fb1..cda72dc  main -> main
+To https://github.com/mibnrashid/SWE363_Project_Phase4_Frontend.git
+   a677eaf..cda72dc  main -> asim
+ + 7e9e0f8...cda72dc main -> bahaa (forced update)
+ + 876d9ce...cda72dc main -> raed (forced update)
+## main...origin/main
+```
+</details>
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "sleep 5; curl -s \"https://api.github.com/repos/mibnrashid/SWE363_Project_Phase4_Frontend/pulls?state=all\" | python -c \"import sys,json; [print(f\\\"#{p['number']} {p['state']} merged={bool(p.get('merged_at'))} {p['head']['ref']}\\\") for p in json.load(sys.stdin)]\"",
+ "description": "Check PR states after aligning branches"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+#3 closed merged=False bahaa
+#2 closed merged=False raed
+#1 closed merged=True asim
+```
+</details>
+
+**Tool call: `Grep`**
+
+```json
+{
+ "pattern": "To be completed",
+ "path": "c:\\Users\\mibnr\\Documents Local\\GitHub Desktop\\SWE363_Project_Phase4_Frontend\\AI_USAGE.md",
+ "output_mode": "count"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+No matches found
+
+Found 0 total occurrences across 0 files.
+```
+</details>
+
+## 🤖 Claude  <sub>2026-11-14T20:10:20.369Z</sub>
+
+All three branches are now on `main` and pushed through cmd (latest commit `cda72dc`), with no co-author lines. One thing still blocks submitting: Bahaa's conversation evidence is missing.
+
+**What I checked on each branch**
+
+| Member | What I found | Result |
+| --- | --- | --- |
+| Asim | Student screens, declaration and evidence (done earlier). | Already merged, PR #1 |
+| Raed | 18 small commits, only in his own folders, plus his declaration and his conversation file (his email blanked out). | Added to `main` |
+| Bahaa | Company screens in one commit, only in his own folder. He declared OpenCode in AI_USAGE.md, but there's no declaration file and no conversations. | Added to `main` |
+
+- **Combined code:** `main` passes lint and build, and Bahaa's 9 tests pass.
+- **How I merged:** I took only Raed's and Bahaa's own commits, so they're still listed as the authors. A normal merge would have brought back the old commits with the Claude co-author line and repeated Asim's commits from Bahaa's branch.
+- **The branches:** I then pointed the `asim`, `bahaa` and `raed` branches at `main`. GitHub closed PR #2 and PR #3 instead of marking them merged, but all their work is in `main`.
+- **Documents:** the PDF now has Raed's and Bahaa's pages filled in, and AI_USAGE.md has all four sections completed. The evidence zip has `musa/`, `asim/` and `raed/` with readable copies, plus a README.
+
+**What to submit on Blackboard**
+
+1. **`Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf`**, from [docs/ai-declaration/](docs/ai-declaration/).
+   - Each member signs their own page, and all four sign the last page. Then upload the signed version.
+   - Bahaa also needs to write his OpenCode model in the empty cell on his page and add the date.
+2. **`Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip`**, from the same folder. **Don't upload it yet.** Bahaa declared OpenCode, and the brief says a declaration that reports AI use without the full conversations counts as missing.
+3. **The GitHub repo link.** AI_USAGE.md is already complete, so nothing else is needed there.
+
+**What Bahaa has to do:** export all his OpenCode conversations for this project into `docs/ai-evidence/bahaa/` and push to `main`. OpenCode should have an export command (`opencode export`) or keep its sessions under `%USERPROFILE%\.local\share\opencode`, though I couldn't check either here. Tell me when it's pushed and I'll rebuild the zip, then you can upload both files.
+
+## 🧑 User  <sub>2026-11-14T20:12:37.672Z</sub>
+
+he used claude opus 5.5, fill the declaration for him.
+we will just submit like this becauses he cant upload it.
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "cd \"c:/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend\" && grep -n \"OpenCode\\|bahaa/\" AI_USAGE.md docs/ai-declaration/declaration.html docs/ai-evidence/README.md; grep -n -A3 'data-member=\"bahaa\"' docs/ai-declaration/declaration.html | head; grep -n \"Signature</small></div><div><div class=\\\"l\\\"></div>\" docs/ai-declaration/declaration.html",
+ "description": "Find Bahaa's lines to update"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+AI_USAGE.md:29:- **Tool:** OpenCode (AI coding assistant) in the terminal.
+docs/ai-declaration/declaration.html:143:    <tr><td>OpenCode (AI coding assistant)</td><td>&nbsp;</td><td>Terminal</td></tr>
+docs/ai-declaration/declaration.html:146:  <p>I used OpenCode to build the company screens from my responsibilities file and the prototype screenshots: the dashboard, the postings list with close/reopen, the posting form and preview, the company profile, all applicants, the applicants for one posting and the applicant detail page. I also used it for the focused helper tests and for running lint and build.</p>
+docs/ai-declaration/declaration.html:156:  <h3>Evidence</h3><p>Full AI conversations: folder <code>bahaa/</code> in the AI Evidence zip.</p>
+docs/ai-evidence/README.md:37:## Bahaa Najjar – `bahaa/`
+docs/ai-evidence/README.md:39:Tool: OpenCode (AI coding assistant) in the terminal. His full OpenCode conversations go in `bahaa/`.
+133:<section class="page" data-member="bahaa">
+134-  <h2>Bahaa Najjar</h2>
+135-  <p class="sub">Branch <code>bahaa</code> · Company screens (dashboard, postings, posting form, company profile, applicants, applicant detail)</p>
+136-  <div class="box">
+158:  <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l"></div><small>Date</small></div></div>
+```
+</details>
+
+**Tool call: `Bash`**
+
+```json
+{
+ "command": "set -e\ncd \"c:/Users/mibnr/Documents Local/GitHub Desktop/SWE363_Project_Phase4_Frontend\"\nH=docs/ai-declaration/declaration.html\nsed -i '143s#<td>OpenCode (AI coding assistant)</td><td>&nbsp;</td>#<td>OpenCode (AI coding assistant)</td><td>Claude Opus 5.5</td>#' $H\nsed -i '156s#.*#  <h3>Evidence</h3><p>My OpenCode conversations are not included in the AI Evidence zip.</p>#' $H\nsed -i '158s#<div class=\"l\"></div><small>Date</small>#<div class=\"l\" style=\"padding-top:4mm\">2026-11-14</div><small>Date</small>#' $H\nsed -i '29s#.*#- **Tool:** OpenCode (AI coding assistant, model Claude Opus 5.5) in the terminal.#' AI_USAGE.md\nsed -i 's#^\\#\\# Bahaa Najjar – `bahaa/`#\\#\\# Bahaa Najjar#; s#^Tool: OpenCode (AI coding assistant) in the terminal. His full OpenCode conversations go in `bahaa/`.#Tool: OpenCode (AI coding assistant, model Claude Opus 5.5) in the terminal. His OpenCode conversations are not included in this zip.#' docs/ai-evidence/README.md\nsed -n '141,158p' $H | grep -n \"Opus\\|Evidence\\|2026\"; sed -n 29p AI_USAGE.md; sed -n '37,40p' docs/ai-evidence/README.md",
+ "description": "Fill Bahaa's model and date, fix his evidence lines"
+}
+```
+
+<details><summary>Tool result</summary>
+
+```
+3:    <tr><td>OpenCode (AI coding assistant)</td><td>Claude Opus 5.5</td><td>Terminal</td></tr>
+16:  <h3>Evidence</h3><p>My OpenCode conversations are not included in the AI Evidence zip.</p>
+18:  <div class="sign"><div><div class="l"></div><small>Signature</small></div><div><div class="l" style="padding-top:4mm">2026-11-14</div><small>Date</small></div></div>
+- **Tool:** OpenCode (AI coding assistant, model Claude Opus 5.5) in the terminal.
+## Bahaa Najjar
+
+Tool: OpenCode (AI coding assistant, model Claude Opus 5.5) in the terminal. His OpenCode conversations are not included in this zip.
+The generated code itself is in the repository history (the `bahaa` branch, pull request #3).
+[This command modified 2 files you've previously read: docs\ai-evidence\README.md, docs\ai-declaration\declaration.html. Call Read before editing.]
+```
+</details>
+
+**Tool call: `PowerShell`**
+
+```json
+{
+ "command": "$r = \"C:\\Users\\mibnr\\Documents Local\\GitHub Desktop\\SWE363_Project_Phase4_Frontend\"; cd $r\nCopy-Item \"C:\\Users\\mibnr\\.claude\\projects\\c--Users-mibnr-Documents-Local-GitHub-Desktop-SWE363-Project-Phase4-Frontend\\85bb98d8-fef7-43af-ac20-71e8a32fedee.jsonl\" \"docs\\ai-evidence\\musa\\raw\\02-push-and-declaration-session.jsonl\" -Force\npython -I docs\\ai-evidence\\musa\\artifacts\\jsonl2md.py docs\\ai-evidence\\musa\\raw\\02-push-and-declaration-session.jsonl docs\\ai-evidence\\musa\\readable\\02-push-and-declaration-session.md\nCopy-Item docs\\ai-declaration\\declaration.html docs\\ai-evidence\\musa\\artifacts\\declaration.html -Force\n& \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --headless --disable-gpu --no-pdf-header-footer \"--print-to-pdf=$r\\docs\\ai-declaration\\Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf\" \"file:///C:/Users/mibnr/Documents%20Local/GitHub%20Desktop/SWE363_Project_Phase4_Frontend/docs/ai-declaration/declaration.html\" 2>$null | Out-Null\nStart-Sleep -Seconds 3\n$stage = \"C:\\Users\\mibnr\\AppData\\Local\\Temp\\claude\\c735370189ee4380\\85bb98d8-fef7-43af-ac20-71e8a32fedee\\scratchpad\\zip\\Team 14 SWE 363-01 - Phase 4 - AI Evidence\"\nRemove-Item (Split-Path $stage) -Recurse -Force -Confirm:$false\nNew-Item -ItemType Directory -Force $stage | Out-Null\nCopy-Item \"$r\\docs\\ai-evidence\\*\" $stage -Recurse\nCompress-Archive -Path $stage -DestinationPath \"$r\\docs\\ai-declaration\\Team 14 SWE 363-01 - Phase 4 - AI Evidence.zip\" -Force\ncmd /c \"git add AI_USAGE.md docs/ai-declaration docs/ai-evidence && git commit -q -m \"\"fill bahaa's model and date in the ai declaration\"\" && git push origin main 2>&1\"\ncmd /c \"git push origin main:asim main:bahaa main:raed 2>&1\"\ncmd /c \"git status -sb\"\n(Select-String -Path \"docs\\ai-declaration\\Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf\" -Pattern \"/Count \\d+\" -AllMatches).Matches[0].Value\n(Get-Item \"docs\\ai-declaration\\Team 14 SWE 363-01 - Phase 4 - AI Declaration.pdf\").LastWriteTime",
+ "description": "Regenerate PDF and zip, commit and push via cmd",
+ "timeout": 300000
+}
+```

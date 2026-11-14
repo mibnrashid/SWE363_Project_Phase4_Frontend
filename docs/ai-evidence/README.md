@@ -34,7 +34,7 @@ Tool: Claude Code (Anthropic, Claude Opus 5.5) in VS Code.
 - `readable/` – the same conversation as Markdown (long tool outputs shortened; `raw/` has everything).
   The generated code itself is in the repository history (the `raed` branch, pull request #2).
 
-## Bahaa Najjar – `bahaa/`
+## Bahaa Najjar
 
-Tool: OpenCode (AI coding assistant) in the terminal. His full OpenCode conversations go in `bahaa/`.
+Tool: OpenCode (AI coding assistant, model Claude Opus 5.5) in the terminal. His OpenCode conversations are not included in this zip.
 The generated code itself is in the repository history (the `bahaa` branch, pull request #3).

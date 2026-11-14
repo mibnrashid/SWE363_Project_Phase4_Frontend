@@ -26,7 +26,7 @@ Every team member lists the AI tools they used (including code autocomplete) and
 
 ### Bahaa Najjar
 
-- **Tool:** OpenCode (AI coding assistant) in the terminal.
+- **Tool:** OpenCode (AI coding assistant, model Claude Opus 5.5) in the terminal.
 - **Used for:** building the company screens from `docs/responsibilities/bahaa.md` and the prototype screenshots (dashboard, postings list and close/reopen, posting form and preview, company profile, all applicants, applicants for one posting, applicant detail), the focused helper tests and running lint/build. I reviewed and tested every screen and the data rules before committing.
 - **Files affected:**
   - Company screens: `src/features/company/pages/*.jsx`, `src/features/company/components/*.jsx`, `src/features/company/utils/postings.js`, `src/features/company/utils/postings.test.js`
