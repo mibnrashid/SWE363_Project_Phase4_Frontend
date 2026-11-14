@@ -7,14 +7,14 @@ Every team member lists the AI tools they used (including code autocomplete) and
 ### Musa ibn Rashid
 
 - **Tool:** Claude Code (Anthropic, model Claude Opus 5.5) in VS Code.
-- **Used for:** analysing the Phase 1–3 documents and the Figma prototype, planning the front-end structure, generating the project setup, the shared components, the demo data store, routing, the guest and authentication screens, the README / CONTRIBUTING files and the `RESPONSIBILITIES.md` files for each member branch. I reviewed, tested and adjusted the output before each commit.
+- **Used for:** analysing the Phase 1–3 documents and the Figma prototype, planning the front-end structure, generating the project setup, the shared components, the demo data store, routing, the guest and authentication screens, the README / CONTRIBUTING files and the responsibility files for each member branch (`docs/responsibilities/*.md`). I reviewed, tested and adjusted the output before each commit.
 - **Files affected:**
   - Project setup: `package.json`, `vite.config.js`, `eslint.config.js`, `index.html`, `.gitignore`, `.gitattributes`, `.env.example`, `public/*`
   - Styles: `src/index.css`
   - Shared code: `src/components/**`, `src/context/**`, `src/hooks/**`, `src/lib/**`, `src/routes/**`, `src/store/**`, `src/data/seed.js`, `src/App.jsx`, `src/main.jsx`
   - Guest and auth screens: `src/features/guest/**`, `src/features/auth/**`
   - Placeholder pages in `src/features/student/**`, `src/features/company/**`, `src/features/admin/**` (later replaced by each owner)
-  - Documentation: `README.md`, `CONTRIBUTING.md`, `AI_USAGE.md`, `RESPONSIBILITIES.md` on each member branch
+  - Documentation: `README.md`, `CONTRIBUTING.md`, `AI_USAGE.md`, `docs/responsibilities/*.md` on each member branch, `docs/TOOLBOX.md`, `docs/DATA_MODEL.md`
 
 ### Asim Asiri
 

@@ -9,11 +9,11 @@
 | `bahaa` | Bahaa | Company screens |
 | `raed` | Raed | Shortlist tables / assistant and admin screens |
 
-Each member branch has a `RESPONSIBILITIES.md` file with the exact list of files, screens and checks for that member. Read it before you start.
+Each member branch adds its own file in `docs/responsibilities/` (`asim.md`, `bahaa.md`, `raed.md`) with the exact list of files, screens and checks for that member. Read yours before you start. (Different file names on purpose, so merging the three branches never conflicts.)
 
 ## Rules that keep us free of merge conflicts
 
-1. **Only edit files inside your own folder** (listed in your `RESPONSIBILITIES.md`). Your pages are already registered in `src/routes/AppRoutes.jsx`, so you never need to touch it.
+1. **Only edit files inside your own folder** (listed in your `docs/responsibilities/<name>.md`). Your pages are already registered in `src/routes/AppRoutes.jsx`, so you never need to touch it.
 2. **Never edit shared files**: `src/components/**`, `src/store/**`, `src/context/**`, `src/lib/**`, `src/hooks/**`, `src/routes/**`, `src/data/**`, `src/index.css`, `package.json`, `package-lock.json`. If you need a change there, message Musa and he will make it on `main`, then you pull it.
 3. Need a small helper or component? Create it inside your own feature folder (for example `src/features/student/components/`).
 4. Need to store new data? Use `insert('yourCollectionName', row)` from `useStore()`: new collections are created automatically, no store edits needed.
@@ -45,5 +45,5 @@ Commit small pieces often (one screen or one feature per commit) with your **own
 
 1. On GitHub open **Pull requests → New pull request**, base `main`, compare `<your-branch>`.
 2. Title: what the PR adds, e.g. `Student screens: saved listings and tracker`.
-3. In the description, tick the checklist from your `RESPONSIBILITIES.md`.
+3. In the description, tick the checklist from your `docs/responsibilities/<name>.md`.
 4. Musa reviews and merges. If he asks for changes, push more commits to the same branch and the PR updates by itself.
