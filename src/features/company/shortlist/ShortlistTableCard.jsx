@@ -1,6 +1,7 @@
 // One shortlist table on the right side of the workspace
 import { useDraggable, useDroppable } from '@dnd-kit/core'
 import { GripVertical, X } from 'lucide-react'
+import { Button } from '../../../components/ui'
 import { cn } from '../../../lib/cn'
 import TableMenu from './TableMenu'
 import { gpaLabel, monthYear } from './tableActions'
@@ -58,7 +59,7 @@ export function TableRow({ app, tableId, index, columns, readOnly, reason, onRem
   )
 }
 
-export default function ShortlistTableCard({ table, appsById, readOnly, reasonOf, onRename, onSort, onToggleColumn, onDelete, onRemoveRow }) {
+export default function ShortlistTableCard({ table, appsById, readOnly, reasonOf, onRename, onSort, onToggleColumn, onDelete, onRemoveRow, onUseAsShortlist }) {
   const rows = table.applicationIds.map((id) => appsById[id]).filter(Boolean)
   const columns = table.columns ?? ['major']
   // the whole card is a drop zone for pool rows and rows from other tables
@@ -105,6 +106,18 @@ export default function ShortlistTableCard({ table, appsById, readOnly, reasonOf
             />
           ))}
         </ol>
+      )}
+
+      {!readOnly && (
+        <Button
+          variant="secondary"
+          fullWidth
+          className="mt-3 hover:border-primary hover:text-primary"
+          disabled={rows.length === 0}
+          onClick={onUseAsShortlist}
+        >
+          Use as shortlist
+        </Button>
       )}
     </div>
   )

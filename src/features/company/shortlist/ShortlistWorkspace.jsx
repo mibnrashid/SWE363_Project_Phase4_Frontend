@@ -16,7 +16,9 @@ import { ConfirmDialog } from '../../../components/ui'
 import { useStore } from '../../../store/useStore'
 import { useToast } from '../../../context/toastContext'
 import { useAiStatus } from '../../../hooks/useAiStatus'
-import { POSTING_STATUS } from '../../../lib/constants'
+import { useAuth } from '../../../context/authContext'
+import { addAuditLog, setApplicationStatus } from '../../../store/actions'
+import { APP_STATUS, POSTING_STATUS } from '../../../lib/constants'
 import { AI_LABEL, REASON_UNAVAILABLE, reasonFor } from './reasons'
 import AddToTableModal from './AddToTableModal'
 import ApplicantPool from './ApplicantPool'
@@ -29,6 +31,7 @@ import {
   addToTable,
   deleteTable,
   insertTable,
+  isUnderReview,
   isWithdrawn,
   makeTable,
   patchTable,
@@ -49,6 +52,8 @@ export default function ShortlistWorkspace({ listing, applications }) {
   const [addOpen, setAddOpen] = useState(false)
   const [deleting, setDeleting] = useState(null)
   const [dragLabel, setDragLabel] = useState('')
+  const [approving, setApproving] = useState(null)
+  const { user } = useAuth()
   const [showReasons, setShowReasons] = useState(false)
   const { aiAvailable } = useAiStatus()
   // FR-AI4 / FR-AI5: reasons are always labelled, and unavailable when the AI service is down
@@ -163,6 +168,45 @@ export default function ShortlistWorkspace({ listing, applications }) {
     setDragLabel(ids.length > 1 ? `${ids.length} applicants` : (appsById[ids[0]]?.student?.name ?? 'Applicant'))
   }
 
+  // FR-C8: N = table members Under Review, M = every other Under Review applicant (Withdrawn skipped)
+  const shortlistSplit = (table) => {
+    const members = new Set(table.applicationIds)
+    const underReview = applications.filter(isUnderReview)
+    return {
+      shortlisted: underReview.filter((a) => members.has(a.id)).map((a) => a.id),
+      others: underReview.filter((a) => !members.has(a.id)).map((a) => a.id),
+    }
+  }
+
+  const approveShortlist = () => {
+    const table = approving
+    const { shortlisted, others } = shortlistSplit(table)
+    if (shortlisted.length === 0) {
+      toast.error('This table has no Under Review applicants.')
+      setApproving(null)
+      return
+    }
+    const now = new Date().toISOString()
+    transaction((cur) => {
+      const current = cur.listings.find((l) => l.id === listing.id)
+      if (current?.shortlistApprovedAt) return cur // allowed once per posting
+      let next = setApplicationStatus(cur, shortlisted, APP_STATUS.SHORT_LISTED, 'Added to the shortlist')
+      next = setApplicationStatus(next, others, APP_STATUS.REJECTED, 'Not short-listed')
+      next = {
+        ...next,
+        listings: next.listings.map((l) => (l.id === listing.id ? { ...l, shortlistApprovedAt: now } : l)),
+        shortlistTables: next.shortlistTables.map((t) => (t.id === table.id ? { ...t, isShortlist: true } : t)),
+      }
+      return addAuditLog(next, {
+        action: 'Shortlist approved',
+        by: user?.name ?? 'Company',
+        details: `${listing.title} - ${shortlisted.length} short-listed`,
+      })
+    })
+    setApproving(null)
+    toast.success('Shortlist approved.')
+  }
+
   const tableHandlers = (table) => ({
     onRename: () => setNameModal({ table }),
     onDelete: () => setDeleting(table),
@@ -175,6 +219,7 @@ export default function ShortlistWorkspace({ listing, applications }) {
       const columns = current.includes(key) ? current.filter((c) => c !== key) : [...current, key]
       transaction((cur) => patchTable(cur, table.id, { columns }))
     },
+    onUseAsShortlist: () => setApproving(table),
     onRemoveRow: (appId) => {
       transaction((cur) => removeFromTable(cur, table.id, [appId]))
       toast.info(`Removed ${appsById[appId]?.student?.name ?? 'applicant'} from ${table.name}.`)
@@ -241,6 +286,22 @@ export default function ShortlistWorkspace({ listing, applications }) {
           onAdd={addSelected}
         />
       )}
+
+      <ConfirmDialog
+        open={!!approving}
+        title="Use this table as the shortlist?"
+        message={
+          approving
+            ? (() => {
+                const { shortlisted, others } = shortlistSplit(approving)
+                return `${plural(shortlisted.length, 'applicant')} will become Short-Listed. ${plural(others.length, 'applicant')} will be Rejected. This can't be undone.`
+              })()
+            : ''
+        }
+        confirmLabel="Confirm"
+        onCancel={() => setApproving(null)}
+        onConfirm={approveShortlist}
+      />
 
       <ConfirmDialog
         open={!!deleting}
