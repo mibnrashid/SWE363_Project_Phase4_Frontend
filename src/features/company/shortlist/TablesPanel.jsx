@@ -1,0 +1,41 @@
+// Right side of the workspace: "Tables" card with every shortlist table of the posting
+import { Plus } from 'lucide-react'
+import { Button } from '../../../components/ui'
+import ShortlistTableCard from './ShortlistTableCard'
+
+export default function TablesPanel({ tables, appsById, readOnly = false, onNewTable, tableHandlers }) {
+  return (
+    <section className="self-start rounded-xl border border-line bg-white">
+      <header className="flex items-start justify-between gap-3 p-4">
+        <div>
+          <h2 className="text-xl font-bold">Tables</h2>
+          <p className="mt-0.5 text-[11px] text-muted">
+            {readOnly ? 'Tables are read-only after the shortlist is approved.' : 'Organize applicants before finalizing.'}
+          </p>
+        </div>
+        {!readOnly && (
+          <Button variant="secondary" icon={Plus} onClick={onNewTable}>
+            New table
+          </Button>
+        )}
+      </header>
+
+      <div className="space-y-3 border-t border-line bg-canvas/50 p-3">
+        {tables.length === 0 && (
+          <p className="rounded-lg border border-dashed border-line bg-white px-4 py-8 text-center text-xs text-muted">
+            No tables yet. Create one, or ask the assistant to make one for you.
+          </p>
+        )}
+        {tables.map((table) => (
+          <ShortlistTableCard
+            key={table.id}
+            table={table}
+            appsById={appsById}
+            readOnly={readOnly}
+            {...(readOnly ? {} : tableHandlers(table))}
+          />
+        ))}
+      </div>
+    </section>
+  )
+}
