@@ -9,7 +9,7 @@ import { getListing, getListingCompany, getStudentApplication, isListingOpen } f
 import { useAuth } from '../../../context/authContext'
 import { useSavedListings } from '../../../hooks/useSavedListings'
 import { useDocumentTitle } from '../../../hooks/useDocumentTitle'
-import { LISTING_SOURCE, RULES } from '../../../lib/constants'
+import { LISTING_SOURCE, POSTING_STATUS, RULES } from '../../../lib/constants'
 import { daysUntil, durationLabel, formatLongDate } from '../../../lib/format'
 import { cn } from '../../../lib/cn'
 import { PATHS } from '../../../routes/paths'
@@ -29,7 +29,11 @@ function SavedCard({ saved, listing, company, application, onRemove, onReminder 
   if (!open) {
     footerLeft = (
       <p className="text-[11px] text-muted">
-        {listing ? `Applications closed on ${formatLongDate(listing.deadline)}` : 'This listing was removed.'}
+        {!listing || listing.status === POSTING_STATUS.REMOVED
+          ? 'This listing was removed and is no longer available.'
+          : days < 0
+            ? `Applications closed on ${formatLongDate(listing.deadline)}`
+            : 'The company closed this posting early.'}
       </p>
     )
   } else if (application) {

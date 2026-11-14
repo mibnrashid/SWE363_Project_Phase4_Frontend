@@ -3,7 +3,7 @@
   Notifications (in-app status updates is real, the others are visual only), log out,
   account (change password), privacy (NFR-7, NFR-12).
 */
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Bell, LockKeyhole, ShieldCheck } from 'lucide-react'
 import { useStore } from '../../../store/useStore'
@@ -60,8 +60,18 @@ function NotificationsPanel() {
     toast.success('Preferences saved.')
   }
 
+  // FR-A5: go to the landing page, then log out once this page has unmounted.
+  // (Logging out first makes the protected route send the user to /login instead.)
+  const loggingOut = useRef(false)
+  useEffect(
+    () => () => {
+      if (loggingOut.current) logout()
+    },
+    [logout],
+  )
+
   const signOut = () => {
-    logout()
+    loggingOut.current = true
     navigate(PATHS.home)
     toast.success('You have been logged out.')
   }
@@ -189,7 +199,7 @@ export default function SettingsPage() {
       <PageHeader eyebrow="Student workspace" title="Settings" subtitle="Manage your account and notification preferences." />
 
       <div className="grid items-start gap-5 lg:grid-cols-[210px_1fr]">
-        <nav className="flex gap-1 overflow-x-auto rounded-xl border border-line bg-white p-2 lg:flex-col">
+        <nav className="flex min-w-0 gap-1 overflow-x-auto rounded-xl border border-line bg-white p-2 lg:flex-col">
           {MENU.map((item) => (
             <button
               key={item.id}
