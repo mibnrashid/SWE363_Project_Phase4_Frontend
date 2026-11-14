@@ -10,7 +10,16 @@
     3. shortlist approved          -> summary card + read-only tables
 */
 import { useMemo, useState } from 'react'
-import { DndContext, DragOverlay, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  TouchSensor,
+  pointerWithin,
+  rectIntersection,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
 import { GripVertical } from 'lucide-react'
 import { ConfirmDialog } from '../../../components/ui'
 import { useStore } from '../../../store/useStore'
@@ -43,6 +52,12 @@ import {
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`
 
+// drop on the table under the pointer (rows are wide, so comparing rectangles would miss)
+const pointerFirst = (args) => {
+  const hits = pointerWithin(args)
+  return hits.length ? hits : rectIntersection(args)
+}
+
 export default function ShortlistWorkspace({ listing, applications }) {
   const { db, transaction } = useStore()
   const toast = useToast()
@@ -52,6 +67,7 @@ export default function ShortlistWorkspace({ listing, applications }) {
   const [addOpen, setAddOpen] = useState(false)
   const [deleting, setDeleting] = useState(null)
   const [dragLabel, setDragLabel] = useState('')
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const [approving, setApproving] = useState(null)
   const { user } = useAuth()
   const [showReasons, setShowReasons] = useState(false)
@@ -163,7 +179,11 @@ export default function ShortlistWorkspace({ listing, applications }) {
     if (selected.has(String(active.id).slice(5))) setSelected(new Set())
   }
 
-  const handleDragStart = ({ active }) => {
+  const handleDragStart = ({ active, activatorEvent }) => {
+    // keep the floating label under the cursor, even when a wide table row is dragged
+    const rect = active.rect.current.initial
+    const point = activatorEvent?.touches?.[0] ?? activatorEvent
+    if (rect && point && 'clientX' in point) setDragOffset({ x: point.clientX - rect.left, y: point.clientY - rect.top })
     const ids = draggedIds(active.id)
     setDragLabel(ids.length > 1 ? `${ids.length} applicants` : (appsById[ids[0]]?.student?.name ?? 'Applicant'))
   }
@@ -230,6 +250,7 @@ export default function ShortlistWorkspace({ listing, applications }) {
     <>
       <DndContext
         sensors={sensors}
+        collisionDetection={pointerFirst}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={() => setDragLabel('')}
@@ -255,7 +276,10 @@ export default function ShortlistWorkspace({ listing, applications }) {
         </div>
         <DragOverlay dropAnimation={null}>
           {dragLabel && (
-            <div className="inline-flex items-center gap-2 rounded-lg bg-night px-3 py-2 text-xs font-semibold text-white shadow-xl">
+            <div
+              className="pointer-events-none inline-flex w-max items-center gap-2 rounded-lg bg-night px-3 py-2 text-xs font-semibold text-white shadow-xl"
+              style={{ transform: `translate(${dragOffset.x - 12}px, ${dragOffset.y - 16}px)` }}
+            >
               <GripVertical className="size-3.5" />
               {dragLabel}
             </div>
