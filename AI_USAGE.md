@@ -34,7 +34,12 @@ Every team member lists the AI tools they used (including code autocomplete) and
 
 ### Raed Abumostafa
 
-_To be completed by Raed (tools used and files affected, or "I did not use any AI tools")._
+- **Tool:** Claude Code (Anthropic, model Claude Opus 5.5) in VS Code. No other AI tools or autocomplete.
+- **Used for:** building my part from `docs/responsibilities/raed.md` and the prototype screenshots: the shortlist workspace (applicant pool, tables, drag and drop, rule-based table assistant with undo, AI reasons, use as shortlist), the Short-Listed page (export and finalize) and all admin screens; running lint/build before each commit, committing and pushing on the `raed` branch, and testing every screen in a headless browser. I reviewed the screenshots and test results before submitting.
+- **Files affected:**
+  - Shortlist: `src/features/company/shortlist/**`
+  - Admin: `src/features/admin/**`
+  - Declaration and evidence: `docs/ai-declaration/raed.md`, `docs/ai-evidence/raed/`
 
 ## Earlier phases
 
