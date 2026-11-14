@@ -40,6 +40,7 @@ AI_USAGE.md                      (ONLY the line under "### Asim Asiri")
 
 ## 2. Design reference
 
+- **Screenshots of every screen are in this repo: [`docs/prototype/`](../prototype/README.md)** (start here - no Figma login needed). Each screen below lists its screenshot. If you use an AI assistant (e.g. Claude Code), point it at the image, for example: *"Build `src/features/...` to match `docs/prototype/...jpg`, following docs/responsibilities/asim.md section 4.x"*. Read `docs/prototype/README.md` first: it lists what to ignore in the images (the Figma top bar and the grey PROTOTYPE STATES bars).
 - **Figma Make prototype:** https://www.figma.com/make/Kq6KXCPbxBB8ZD8cK04Jdz/InternConnect-Desktop-Prototype → click **Student flow**. Match these screens as closely as you can (spacing, sizes, texts, order of sections).
 - **Annotated wireframes:** https://www.figma.com/design/TTgWHwlEfcfQgtLAXtT716/InternConnect---Phase-3-Annotated-Wireframes?node-id=0-1 → boards 6-12 have the notes for each state.
 - The prototype has grey "PROTOTYPE STATES" / "RESULTS STATES" bars with buttons to switch states. **Do not copy those bars.** In our app the states must come from the real data (e.g. "no results" appears when the filters really return nothing).
@@ -73,6 +74,7 @@ Demo data you will see as Nora: applications in **every status** (Under Review, 
 For every screen: call `useDocumentTitle('<title>')`, start with `<PageHeader eyebrow="Student workspace" title=... subtitle=... />`, and make sure every action shows a toast.
 
 ### 4.1 Dashboard - `src/features/student/pages/StudentDashboardPage.jsx`
+**Screenshot:** `docs/prototype/student/01-dashboard-top.jpg`, `docs/prototype/student/02-dashboard-bottom.jpg`
 Route `/student` · FR-S3, FR-AI2, FR-AI5 · Prototype: Student flow → Dashboard
 
 Layout (top to bottom, like the prototype):
@@ -89,6 +91,7 @@ Layout (top to bottom, like the prototype):
    Empty rows: short text + link (e.g. "No applications yet").
 
 ### 4.2 My profile - `src/features/student/pages/StudentProfilePage.jsx`
+**Screenshot:** `docs/prototype/student/12-profile-top.jpg`, `docs/prototype/student/13-profile-bottom.jpg`
 Route `/student/profile` · FR-S1, FR-AI1 · Prototype: Dashboard → Complete profile ("Your profile")
 
 Layout: `PageHeader` title "Your profile", subtitle "Keep your information current to get more relevant matches.", action **Save changes**. Left column: section links (Personal details, Academic information, Skills & interests, Resume - clicking scrolls to the section) and a **Profile strength** bar (same helper as the dashboard). Right column: one `Card` per section.
@@ -110,6 +113,7 @@ Behaviour:
 - If the browser can't store a big PDF, it still works (the store catches the error); don't worry about it.
 
 ### 4.3 Find opportunities - `src/features/student/pages/SearchPage.jsx`
+**Screenshot:** `docs/prototype/student/04-search-top.jpg`, `docs/prototype/student/05-search-bottom.jpg`
 Route `/student/search` · FR-S2, FR-S6, FR-AI6 · Prototype: Student flow → Find opportunities
 
 Layout (prototype):
@@ -130,6 +134,7 @@ States:
 - Never show match labels or percentages on this page (Phase 3 rule).
 
 ### 4.4 Apply - `src/features/student/pages/ApplyPage.jsx`
+**Screenshot:** `docs/prototype/student/11-apply.jpg`
 Route `/student/apply/:listingId` · FR-S4 · Prototype: listing → Apply now (the popup)
 
 The prototype shows this as a popup on the listing page. In our app it is its own page (the listing page's **Apply now** button already navigates here). Make the page look like the popup: a centered white card (max width ~720px) with:
@@ -156,6 +161,7 @@ Behaviour:
   then `toast.success('Application submitted.')` and show a success state: check icon, "Application submitted", "You can follow its status in your tracker", buttons **View my applications** and **Browse more**.
 
 ### 4.5 Saved listings - `src/features/student/pages/SavedPage.jsx`
+**Screenshot:** `docs/prototype/student/09-saved.jpg`
 Route `/student/saved` · FR-S6, FR-S7 · Prototype: Student flow → Saved
 
 Layout: `PageHeader` title "Saved opportunities", subtitle "Keep track of opportunities you're considering." Then one wide card per saved listing (newest saved first):
@@ -170,6 +176,7 @@ Rules:
 - Empty → `EmptyState` icon `Bookmark`, "You haven't saved any listings yet", button **Search listings** → `PATHS.student.search`.
 
 ### 4.6 My applications (tracker) - `src/features/student/pages/ApplicationsPage.jsx`
+**Screenshot:** `docs/prototype/student/06-applications.jpg`, `docs/prototype/student/07-application-drawer.jpg`, `docs/prototype/student/08-add-external-modal.jpg`
 Route `/student/applications` · FR-S5, FR-S8, FR-S9 · Prototype: Student flow → Applications
 
 Layout (prototype):
@@ -197,6 +204,7 @@ Add external application (`Modal`, prototype "Add external application"):
 Empty state (no internal and no external) → `EmptyState` "No applications yet" + button **Search listings**.
 
 ### 4.7 Settings - `src/features/student/pages/SettingsPage.jsx`
+**Screenshot:** `docs/prototype/student/14-settings.jpg`
 Route `/student/settings` · FR-S10, FR-A5 · Prototype: avatar → Settings
 
 Layout: `PageHeader` title "Settings", subtitle "Manage your account and notification preferences." Left: menu (Notifications, Account, Privacy). Right: card for the selected section.
@@ -205,6 +213,7 @@ Layout: `PageHeader` title "Settings", subtitle "Manage your account and notific
 - **Privacy**: short text: who can see the resume (only you, companies you applied to, admins - NFR-7) and that name, email, phone etc. are never sent to the AI (NFR-12).
 
 ### 4.8 Notifications - `src/features/student/pages/NotificationsPage.jsx`
+**Screenshot:** `docs/prototype/student/03-notifications-dropdown.jpg` (the dropdown - there is no full-page design, reuse its look)
 Route `/student/notifications` · FR-S10 · reached from the bell → "View all notifications"
 
 - `PageHeader` title "Notifications", action **Mark all as read** (only when there are unread ones).
