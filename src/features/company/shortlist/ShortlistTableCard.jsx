@@ -1,4 +1,5 @@
 // One shortlist table on the right side of the workspace
+import { useDraggable, useDroppable } from '@dnd-kit/core'
 import { GripVertical, X } from 'lucide-react'
 import { cn } from '../../../lib/cn'
 import TableMenu from './TableMenu'
@@ -14,11 +15,29 @@ function rowDetails(student, columns) {
   return parts.join(' · ')
 }
 
-export function TableRow({ app, index, columns, readOnly, onRemove }) {
+export function TableRow({ app, tableId, index, columns, readOnly, onRemove }) {
   const details = rowDetails(app.student, columns)
+  // rows can be dragged to another table
+  const { setNodeRef, listeners, attributes, isDragging } = useDraggable({
+    id: `table:${tableId}:${app.id}`,
+    disabled: readOnly,
+  })
   return (
-    <li className="flex items-start gap-2 border-t border-line py-2.5">
-      {!readOnly && <GripVertical className="mt-0.5 size-4 shrink-0 text-muted" aria-hidden="true" />}
+    <li
+      ref={setNodeRef}
+      className={cn('flex items-start gap-2 border-t border-line py-2.5', isDragging && 'opacity-40')}
+    >
+      {!readOnly && (
+        <button
+          type="button"
+          {...listeners}
+          {...attributes}
+          aria-label={`Drag ${app.student?.name ?? 'applicant'} to another table`}
+          className="mt-0.5 shrink-0 cursor-grab touch-none text-muted hover:text-ink"
+        >
+          <GripVertical className="size-4" />
+        </button>
+      )}
       <span className="w-4 shrink-0 pt-px text-[11px] text-muted">{index + 1}</span>
       <div className="min-w-0 flex-1">
         <p className="truncate text-[13px] font-semibold text-ink">{app.student?.name ?? 'Unknown student'}</p>
@@ -41,9 +60,18 @@ export function TableRow({ app, index, columns, readOnly, onRemove }) {
 export default function ShortlistTableCard({ table, appsById, readOnly, onRename, onSort, onToggleColumn, onDelete, onRemoveRow }) {
   const rows = table.applicationIds.map((id) => appsById[id]).filter(Boolean)
   const columns = table.columns ?? ['major']
+  // the whole card is a drop zone for pool rows and rows from other tables
+  const { setNodeRef, isOver } = useDroppable({ id: `drop:${table.id}`, disabled: readOnly })
 
   return (
-    <div className={cn('rounded-xl border border-line bg-white p-4', table.isShortlist && 'border-primary/40')}>
+    <div
+      ref={setNodeRef}
+      className={cn(
+        'rounded-xl border border-line bg-white p-4 transition-shadow',
+        table.isShortlist && 'border-primary/40',
+        isOver && 'border-primary ring-2 ring-primary/30',
+      )}
+    >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <h3 className="truncate text-lg font-bold">{table.name}</h3>
@@ -67,6 +95,7 @@ export default function ShortlistTableCard({ table, appsById, readOnly, onRename
             <TableRow
               key={app.id}
               app={app}
+              tableId={table.id}
               index={i}
               columns={columns}
               readOnly={readOnly}

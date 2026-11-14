@@ -10,6 +10,8 @@
     3. shortlist approved          -> summary card + read-only tables
 */
 import { useMemo, useState } from 'react'
+import { DndContext, DragOverlay, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { GripVertical } from 'lucide-react'
 import { ConfirmDialog } from '../../../components/ui'
 import { useStore } from '../../../store/useStore'
 import { useToast } from '../../../context/toastContext'
@@ -43,6 +45,12 @@ export default function ShortlistWorkspace({ listing, applications }) {
   const [nameModal, setNameModal] = useState(null) // { table } when renaming, { table: null } when creating
   const [addOpen, setAddOpen] = useState(false)
   const [deleting, setDeleting] = useState(null)
+  const [dragLabel, setDragLabel] = useState('')
+  // distance: clicks on checkboxes and links still work; delay: phones can still scroll
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 6 } }),
+  )
 
   const tables = tablesForListing(db, listing.id)
   const appsById = useMemo(() => Object.fromEntries(applications.map((a) => [a.id, a])), [applications])
@@ -105,6 +113,48 @@ export default function ShortlistWorkspace({ listing, applications }) {
     setAddOpen(false)
   }
 
+  // which application ids a drag carries: ticked rows travel together (multi-select drag)
+  const draggedIds = (activeId) => {
+    const [kind, ...rest] = String(activeId).split(':')
+    if (kind === 'pool') {
+      const appId = rest[0]
+      return selected.has(appId) ? usableIds([...selected]) : usableIds([appId])
+    }
+    if (kind === 'table') return [rest[1]]
+    return []
+  }
+
+  const handleDragEnd = ({ active, over }) => {
+    setDragLabel('')
+    if (!over || !String(over.id).startsWith('drop:')) return
+    const targetId = String(over.id).slice(5)
+    const target = tables.find((t) => t.id === targetId)
+    const ids = draggedIds(active.id)
+    if (!target || ids.length === 0) return
+
+    const [kind, sourceId] = String(active.id).split(':')
+    if (kind === 'table') {
+      if (sourceId === targetId) return
+      const source = tables.find((t) => t.id === sourceId)
+      transaction((cur) => addToTable(removeFromTable(cur, sourceId, ids), targetId, ids))
+      toast.success(`Moved ${appsById[ids[0]]?.student?.name ?? 'applicant'} from ${source?.name} to ${target.name}.`)
+      return
+    }
+    const fresh = ids.filter((id) => !target.applicationIds.includes(id))
+    if (fresh.length === 0) {
+      toast.info(`Already in ${target.name}.`)
+      return
+    }
+    transaction((cur) => addToTable(cur, targetId, fresh))
+    toast.success(`Added ${plural(fresh.length, 'applicant')} to ${target.name}.`)
+    if (selected.has(String(active.id).slice(5))) setSelected(new Set())
+  }
+
+  const handleDragStart = ({ active }) => {
+    const ids = draggedIds(active.id)
+    setDragLabel(ids.length > 1 ? `${ids.length} applicants` : (appsById[ids[0]]?.student?.name ?? 'Applicant'))
+  }
+
   const tableHandlers = (table) => ({
     onRename: () => setNameModal({ table }),
     onDelete: () => setDeleting(table),
@@ -125,22 +175,37 @@ export default function ShortlistWorkspace({ listing, applications }) {
 
   return (
     <>
-      <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1fr_360px]">
-        <ApplicantPool
-          apps={poolApps}
-          sort={sort}
-          onSortChange={setSort}
-          selected={selected}
-          onToggle={toggle}
-          onAddToTable={() => setAddOpen(true)}
-        />
-        <TablesPanel
-          tables={tables}
-          appsById={appsById}
-          onNewTable={() => setNameModal({ table: null })}
-          tableHandlers={tableHandlers}
-        />
-      </div>
+      <DndContext
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={() => setDragLabel('')}
+      >
+        <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1fr_360px]">
+          <ApplicantPool
+            apps={poolApps}
+            sort={sort}
+            onSortChange={setSort}
+            selected={selected}
+            onToggle={toggle}
+            onAddToTable={() => setAddOpen(true)}
+          />
+          <TablesPanel
+            tables={tables}
+            appsById={appsById}
+            onNewTable={() => setNameModal({ table: null })}
+            tableHandlers={tableHandlers}
+          />
+        </div>
+        <DragOverlay dropAnimation={null}>
+          {dragLabel && (
+            <div className="inline-flex items-center gap-2 rounded-lg bg-night px-3 py-2 text-xs font-semibold text-white shadow-xl">
+              <GripVertical className="size-3.5" />
+              {dragLabel}
+            </div>
+          )}
+        </DragOverlay>
+      </DndContext>
 
       {nameModal && (
         <TableNameModal

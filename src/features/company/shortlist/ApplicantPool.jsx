@@ -3,6 +3,7 @@
   Withdrawn rows are greyed out and can't be selected.
 */
 import { Link } from 'react-router-dom'
+import { useDraggable } from '@dnd-kit/core'
 import { Avatar, Button, Select, StatusBadge, Table, Td, Th } from '../../../components/ui'
 import { formatDate } from '../../../lib/format'
 import { cn } from '../../../lib/cn'
@@ -11,8 +12,20 @@ import { POOL_SORTS, isWithdrawn } from './tableActions'
 
 function PoolRow({ app, checked, onToggle }) {
   const withdrawn = isWithdrawn(app)
+  // each row can be dragged onto a table (withdrawn rows can't)
+  const { setNodeRef, listeners, attributes, isDragging } = useDraggable({ id: `pool:${app.id}`, disabled: withdrawn })
   return (
-    <tr className={cn(withdrawn && 'opacity-50')}>
+    <tr
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      aria-roledescription="draggable applicant"
+      className={cn(
+        withdrawn ? 'opacity-50' : 'cursor-grab hover:bg-canvas/60',
+        isDragging && 'opacity-40',
+        checked && 'bg-primary-soft/40',
+      )}
+    >
       <Td className="w-10 pr-0">
         <input
           type="checkbox"
@@ -48,7 +61,7 @@ export default function ApplicantPool({ apps, sort, onSortChange, selected, onTo
       <header className="flex flex-wrap items-end justify-between gap-3 p-5">
         <div>
           <h2 className="text-xl font-bold">Applicants</h2>
-          <p className="mt-0.5 text-xs text-muted">Select applicants to add to a table.</p>
+          <p className="mt-0.5 text-xs text-muted">Select applicants to add to a table, or drag them onto one.</p>
         </div>
         <Select
           label="Sort"
