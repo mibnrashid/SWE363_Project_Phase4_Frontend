@@ -1,10 +1,19 @@
-function App() {
+import { BrowserRouter } from 'react-router-dom'
+import StoreProvider from './store/StoreProvider'
+import AuthProvider from './context/AuthProvider'
+import ToastProvider from './context/ToastProvider'
+import AppRoutes from './routes/AppRoutes'
+
+export default function App() {
   return (
-    <div className="container-page py-16">
-      <p className="eyebrow">InternConnect</p>
-      <h1 className="mt-2 text-4xl">Find training that moves you forward.</h1>
-    </div>
+    <BrowserRouter>
+      <StoreProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </ToastProvider>
+      </StoreProvider>
+    </BrowserRouter>
   )
 }
-
-export default App
