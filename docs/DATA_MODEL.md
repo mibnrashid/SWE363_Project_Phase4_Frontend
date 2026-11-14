@@ -88,7 +88,7 @@ Listings fetched from the external job API, waiting for admin review (FR-AD4).
 
 ## externalSources
 ```js
-{ id, name, status: 'enabled'|'disabled'|'error', lastSyncAt, imported, lastError, lastErrorAt }
+{ id, name, url, schedule, status: 'enabled'|'disabled'|'error', lastSyncAt, imported, lastError, lastErrorAt }
 ```
 
 ## auditLog

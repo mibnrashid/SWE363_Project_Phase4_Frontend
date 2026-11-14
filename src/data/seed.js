@@ -694,8 +694,11 @@ function buildImportedListings() {
 }
 
 function buildExternalSources() {
+  // the job listing API provider is still TBD (CON-2); these are the feeds configured through it
   return [
-    { id: 'src_jobs_api', name: 'Job listing API (provider TBD)', status: 'enabled', lastSyncAt: daysFromNow(0, 6), imported: 46, lastError: null, lastErrorAt: null },
+    { id: 'src_elm', name: 'Elm Careers', url: 'careers.elm.sa', schedule: 'Every 12 hours', status: 'enabled', lastSyncAt: daysFromNow(0, 8), imported: 6, lastError: null, lastErrorAt: null },
+    { id: 'src_sabic', name: 'SABIC Careers', url: 'jobs.sabic.com', schedule: 'Daily', status: 'error', lastSyncAt: daysFromNow(-1, 18), imported: 21, lastError: 'The source returned an unexpected response.', lastErrorAt: daysFromNow(0, 6) },
+    { id: 'src_maaden', name: "Ma'aden Careers", url: 'careers.maaden.com.sa', schedule: 'Daily', status: 'disabled', lastSyncAt: null, imported: 0, lastError: null, lastErrorAt: null },
   ]
 }
 

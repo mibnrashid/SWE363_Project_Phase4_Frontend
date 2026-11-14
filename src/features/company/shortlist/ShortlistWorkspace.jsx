@@ -1,9 +1,12 @@
 /*
   PLACEHOLDER - Raed Abumostafa replaces the body of this component on the `raed` branch.
 
-  This component is rendered INSIDE Bahaa's ApplicantsPage (screen 16), under the applicants list.
-  Bahaa owns ApplicantsPage.jsx, Raed owns everything in src/features/company/shortlist/.
-  Keep the name, the default export and the props below exactly the same so the two branches fit together.
+  Rendered by Bahaa's ApplicantsPage (screen 16). Keep the name, the default export and the props.
+  It has three modes:
+    1. listing.status === 'open'                     -> lock card "Applicants can be shortlisted after the posting closes."
+    2. closed and listing.shortlistApprovedAt is null -> the full workspace: applicants table with checkboxes,
+                                                        Tables panel, Table assistant chat (Bahaa hides his list here)
+    3. listing.shortlistApprovedAt is set            -> small summary "Shortlist approved" + link to the Short-Listed page
 
   Props (passed by ApplicantsPage):
     listing       the posting object from db.listings
@@ -20,10 +23,12 @@ export default function ShortlistWorkspace({ listing, applications }) {
       <div className="mx-auto grid size-10 place-items-center rounded-full bg-primary-soft text-primary">
         <Lock className="size-4" />
       </div>
-      <p className="mt-3 font-serif text-lg font-bold">Shortlist tables and assistant</p>
+      <p className="mt-3 font-serif text-lg font-bold">
+        {locked ? 'Applicants can be shortlisted after the posting closes' : 'Shortlist tables and assistant'}
+      </p>
       <p className="mt-1 text-sm text-muted">
         {locked
-          ? 'Applicants can be shortlisted after the posting closes.'
+          ? 'Applications are still arriving. Tables and assistant chat will unlock when you close the posting.'
           : `Being built by Raed Abumostafa (FR-C7, FR-C8, FR-AI3, FR-AI4, FR-AI5). ${applications.length} applications received.`}
       </p>
     </section>
